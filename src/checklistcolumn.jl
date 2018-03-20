@@ -14,9 +14,11 @@ mutable struct ChecklistColumn
 end
 
 ChecklistColumn(name, values) =
-    ChecklistColumn(name, button(string(name)), ChecklistItem.(values))
+    ChecklistColumn(name, togglebuttons([string(name)], multiselect = true), ChecklistItem.(values))
 
 selecteditems(col::ChecklistColumn) = [i.value for i in col.items if isselected(i)]
+
+isselected(col::ChecklistColumn) = !isempty(observe(i.button).val)
 
 name(col::ChecklistColumn) = col.name
 

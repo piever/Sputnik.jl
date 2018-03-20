@@ -4,5 +4,8 @@ layout(cs::AbstractArray{<:ChecklistColumn}) = hbox(layout.(cs)...)
 layout(cs::AbstractArray{<:DropdownItem}) = hbox(hbox.(hskip(20px), getfield.(cs, :items)))
 
 function layout(t::NextTable)
-    vbox(layout(dropdownrow(t)), layout(checklistcolumns(t)))
+    plot_options = dropdownrow(t)
+    data_columns = checklistcolumns(t)
+    vbox(layout(plot_options), layout(data_columns))
+    plot_command = button("Plot")
 end

@@ -21,3 +21,6 @@ function dropdownrow(t::NextTable)
     across = DropdownItem(vcat(["none", "bootstrap", "across"], "across " .* n), label = "across")
     [x, y, plot_type, across]
 end
+
+selecteditems(c::DropdownItem) = observe(c.items).val
+selecteditems(c::AbstractArray{<:DropdownItem}) = selecteditems.(c)
