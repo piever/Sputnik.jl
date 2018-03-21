@@ -6,8 +6,15 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 \usepackage{listings}
-\usepackage{graphicx}
 \usepackage{fullpage}
+\usepackage[pdftex]{graphicx}
+\usepackage[x11names]{xcolor}
+\usepackage{colortbl}
+\usepackage{caption}
+\usepackage{booktabs}
+\newcommand{\tablestyle}{\color{black}\makebox[0pt]{\textbullet}\hskip-0.5pt\vrule width 1pt\hspace{\labelsep}}
+
+
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -17,11 +24,12 @@
 }
 
 
+
 \begin{document}
 
 \title{NumFocus - Julia Google Summer of Code proposal:\\
 Sputink, a modern tool for data exploration based on JuliaDB and WebIO}
-\author{Pietro Vertechi, mentored by Shashi Gowda}
+\author{Pietro Vertechi, mentored by Shashi Gowda and Josh Day}
 
 
 \maketitle
@@ -50,7 +58,7 @@ I intend to integrate ideas from my previous experience building a QML-based GUI
     \item Served in the browser
 \end{itemize}
 
-If the time allows it, I'd like to investigate whether it is feasible - for users whose data is stored on a server - to deploy such app from the server and analyze the data remotely. In that way, researchers who are willing to open-source their data could quickly set up a website where everybody can consult their data interactively (in my view, this is an excellent way to accompany a publication where only some analysis of the data are accessible).
+If the time allows it, I'd like to investigate whether it is feasible - for users whose data is stored on a server - to deploy such app from the server and analyze the data remotely. In that way, researchers who are willing to open-source their data could quickly set up a website where everybody can consult their data interactively (in my view, this is an excellent way to accompany a publication where only some analyses of the data are accessible).
 
 \section*{Plan}
 
@@ -67,6 +75,23 @@ As a third step, I intend to rethink the UI design, adding features specific to 
 Throughout this process, I will try, as much as possible, to keep the components of the app modularized so that it would also be possible, for a user, to recombine these components to build GUIs with a different design or calling different algorithms and visualization techniques in the background.\\
 
 Finally, if time permits, I will investigate whether it is feasible to deploy this app from a server where the data is stored, thus simplifying online interactive visualizations of shared data.
+
+\subsection*{Timeline}
+
+An approximate planned timeline is as follows:\\
+
+\scalebox{1}{
+\begin{tabular}{@{\,}r <{\hskip 2pt} !{\tablestyle} >{\raggedright\arraybackslash}p{10cm}}
+\addlinespace[1ex]
+Week 1 & Port PlugAndPlot to WebIO+InteractNext (those parts where the functionality exists already)\vspace{5mm}\\
+Week 2-3 & Add missing functionality to InteractNext\vspace{5mm}\\
+Week 4-5 & Specialize GroupedErrors for JuliaDB input\vspace{5mm}\\
+Week 6-9 & Rethink UI, incorporating OnlineStats and TableView\vspace{5mm}\\
+Week 10-12 & Modularize design to allow different parts of the GUI to be reused by different projects\vspace{5mm}\\
+Stretch goal & Test and deploy from a server for online interactive visualizations\vspace{5mm}\\
+
+\end{tabular}
+}
 
 \section*{About me}
 
