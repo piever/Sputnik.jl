@@ -6,6 +6,8 @@ layout(cs::AbstractArray{<:DropdownItem}) = hbox(hbox.(hskip(20px), getfield.(cs
 function layout(t::NextTable)
     plot_options = dropdownrow(t)
     data_columns = checklistcolumns(t)
-    vbox(layout(plot_options), layout(data_columns))
     plot_command = button("Plot")
+    vbox(hbox(layout(plot_options), hskip(20px), plot_command), layout(data_columns))
 end
+
+launch(t) = dom"div"(layout(t))

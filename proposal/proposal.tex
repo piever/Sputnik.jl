@@ -56,20 +56,34 @@ If the time allows it, I'd like to investigate whether it is feasible - for user
 
 As a first step, I inted to port \href{https://github.com/piever/PlugAndPlot.jl}{PlugAndPlot.jl} from QML to \href{https://github.com/JuliaGizmos/WebIO.jl}{WebIO}. This will involve adding some functionality to the WebIO, InteractNext, CSSUtils stack as not all widgets and features of QML are implemented there yet. It will also be a learning opportunity for me as, despite having some experience with traditional GUI toolkits (Gtk and QML), I'm not as familiar with the recently developed WebIO stack. I will be under \href{https://github.com/shashi}{@shashi} mentoring who is one of the main developer of the WebIO stack and will help me familiarize myself with this software. \\
 
-As a second step, I intend to optimize the analytical core of PlugAndPlot, \href{https://github.com/piever/GroupedErrors.jl}{GroupedErrors.jl}, a package which accepts any table that can iterate data, in the case where the input data is a JuliaDB table. This should be possible without sacrificing the "iterator based interface", once a set of PRs on which I'm working to collect iterators as a set of columns efficiently are merged: see:
+As a second step, I intend to optimize the analytical core of PlugAndPlot, \href{https://github.com/piever/GroupedErrors.jl}{GroupedErrors.jl}, a package which accepts any table that can iterate data, in the case where the input data is a JuliaDB table. This should be possible without sacrificing the "iterator based interface", and relies on a set of PRs (on which I'm currently working) to collect iterators as a set of columns efficiently, see:
 
  \url{https://github.com/JuliaComputing/IndexedTables.jl/pull/137} and
 
   \url{https://github.com/JuliaComputing/IndexedTables.jl/pull/135}.\\
 
-As a third step, I intend to rethink the UI design, adding features specific to JuliaDB (such as the powerful set of online statistical analysis and visualizations - or the \href{https://github.com/JuliaComputing/TableView.jl}{TableView.jl} package, also WebIO based, to visualize the data in a spreadsheet format), incorporating feedback from the JuliaDB developers. To maintain the flexibility of working with a script, I intend to add a textbox where users can type in calls to functions from JuliaDB or \href{https://github.com/piever/JuliaDBMeta.jl}{JuliaDBMeta} to do some preprocessing on their data before visualizing it.\\
+As a third step, I intend to rethink the UI design, adding features specific to JuliaDB (such as the powerful set of online statistical analysis and visualizations - or the \href{https://github.com/JuliaComputing/TableView.jl}{TableView.jl} package, also WebIO based, to visualize the data in a spreadsheet format), incorporating feedback from the JuliaDB developers. For extra flexibility, I intend to add a textbox where users can type in calls to functions from JuliaDB or \href{https://github.com/piever/JuliaDBMeta.jl}{JuliaDBMeta} to do some preprocessing on their data before visualizing it.\\
 
 Throughout this process, I will try, as much as possible, to keep the components of the app modularized so that it would also be possible, for a user, to recombine these components to build GUIs with a different design or calling different algorithms and visualization techniques in the background.\\
 
-Finally, if time permits, I will investigate whether it is feasible to deploy this app from a server where the data is stored, thus simplifying interactive visualizations of shared data.
+Finally, if time permits, I will investigate whether it is feasible to deploy this app from a server where the data is stored, thus simplifying online interactive visualizations of shared data.
 
 \section*{About me}
 
-Even though my background (bachelor and master) is in mathematics, I'm currently enrolled in a PhD in neuroscience. 
+Even though my background (bachelor and master) is in mathematics, I'm currently enrolled in a PhD in neuroscience.
+
+For my work I enjoy using open source tools, particularly the \href{https://julialang.org/}{Julia programming language} to model and analyze data and the \href{https://godotengine.org/}{Godot game engine} to design videogames to be used as psychophysical tasks in a lab environment or online.
+
+My work using Godot or developing Julia can be found at my GitHub account:
+
+\url{https://github.com/piever}
+
+I've recently started a blog about Godot and Julia, which so far includes a series of introductory blog posts to the Julia language for beginners: \url{https://piever.github.io/simpleblog/}. \\
+
+I've chosen to apply for this project (a GUI to simplify data visualization) as I've seen in my research institution that many researchers in neuroscience, especially during master or early PhD, struggle to analyze their data and often resort to proprietary graphical tools that are quite limiting, in that once the user becomes more confident there is no way to "dig deeper". By building a app based on JuliaDB I hope that the beginner user will gradually learn how to translate a sequence of clicks on the GUI into a JuliaDB command. I also think Julia is reaching a stage where it is stable enough also for inexperienced user and it is therefore a good moment to build tools that also target them as a potential audience.
+
+My work in a neurocience institute has also tought me what kind of analysis are more often needed and what type of software is considered intuitive or unintuitive by researchers in this field.
+
+For further information feel free to contact me at \href{mailto:pietro.vertechi@neuro.fchampalimaud.org}{pietro.vertechi@neuro.fchampalimaud.org} or, if you have a suggestion about this new project, feel free to open a "feature request" issue at \href{https://github.com/piever/Sputnik.jl}{this repository}.
 
 \end{document}
