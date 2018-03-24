@@ -9,6 +9,6 @@ function build_plot(t, plot_options, data_columns, smoother)
                  plot=plt,
                  compute_error=across,
                  axis_type=axis_type,
-                 smoother = observe(smoother)[])
+                 smoother = smoother)
     process(a)
 end
