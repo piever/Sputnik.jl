@@ -18,7 +18,7 @@ ChecklistColumn(name, values) =
 
 selecteditems(col::ChecklistColumn) = [i.value for i in col.items if isselected(i)]
 
-isselected(col::ChecklistColumn) = !isempty(observe(i.button).val)
+isselected(col::ChecklistColumn) = !isempty(observe(col.button).val)
 
 name(col::ChecklistColumn) = col.name
 
@@ -32,3 +32,9 @@ function checklistcolumns(t::NextTable; nbox = 5)
     end
     v
 end
+
+SputnikUtilities.SelectValues(c::ChecklistColumn) =
+    SelectValues(c.name, selecteditems(c), isselected(c))
+
+SputnikUtilities.Data2Select(t, d::AbstractArray{<:ChecklistColumn}) =
+    Data2Select(t, Tuple(SelectValues.(d)), ())
