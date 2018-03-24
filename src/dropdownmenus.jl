@@ -1,4 +1,4 @@
-const plot_dict = Dict(
+const plot_dict = OrderedDict(
     "lineplot" => plot,
     "scatter" => scatter,
     "bar" => groupedbar,
@@ -22,10 +22,23 @@ function dropdownrow(t::NextTable)
     y = DropdownItem(vcat(["hazard", "density", "cumulative"], n), label = "y")
     plotlist = collect(keys(plot_dict))
     plot_type = DropdownItem(plotlist, x -> plot_dict[x], label = "plot")
+    axis_type = DropdownItem(["pointbypoint", "discrete", "binned", "continuous"], label = "axis_type")
     across = DropdownItem(vcat(["none", "bootstrap", "across"], "across " .* n),
-                          t -> t == "none" ? nothing : Symbol(t),
-                          label = "across")
-    [x, y, plot_type, across]
+                          across_map,
+                          label = "compute_error")
+    [x, y, plot_type, axis_type, across]
+end
+
+function across_map(s)
+    if s=="none"
+        nothing
+    elseif s == "bootstrap"
+        (:bootstrap, 1000)
+    elseif s == "across"
+        (:across, :all)
+    else
+        (:across, Symbol(match(r"^across (.*)$", s)[1]))
+    end
 end
 
 selecteditems(c::DropdownItem) = observe(c.items).val |> c.transform

@@ -10,8 +10,9 @@ function layout(t::NextTable)
     data_columns = checklistcolumns(t)
     plot_command = button("Plot")
     plt = Observable{Any}(default_plot())
-    on(x -> plt[] = build_plot(t, plot_options, data_columns), observe(plot_command))
-    vbox(hbox(layout(plot_options), hskip(20px), plot_command),
+    smoother = slider(1:100, label = "smoothing")
+    on(x -> plt[] = build_plot(t, plot_options, data_columns, smoother), observe(plot_command))
+    vbox(hbox(layout(plot_options), hskip(20px), smoother, hskip(20px), plot_command),
         layout(data_columns), plt)
 end
 
