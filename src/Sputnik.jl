@@ -1,6 +1,6 @@
 module Sputnik
 
-using InteractNext, WebIO, CSSUtil, JuliaDB, StatPlots, DataStructures
+using InteractNext, WebIO, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
 plotlyjs()
 using SputnikUtilities
 
