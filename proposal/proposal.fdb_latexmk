@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1521656224 "proposal.tex" "/home/pietro/.julia/v0.6/Sputnik/proposal/proposal.pdf" "proposal" 1521656224
+["pdflatex"] 1522155358 "proposal.tex" "/home/pietro/.julia/v0.6/Sputnik/proposal/proposal.pdf" "proposal" 1522155358
   "/etc/texmf/web2c/texmf.cnf" 1516125894 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/pietro/.julia/v0.6/Sputnik/proposal/proposal.aux" 1521656224 662 b2b94621371df8d9296b8bf5bec1b851 ""
+  "/home/pietro/.julia/v0.6/Sputnik/proposal/proposal.aux" 1522155358 662 b2b94621371df8d9296b8bf5bec1b851 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1480098698 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1480098698 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -85,13 +85,13 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1503024366 32036 8f10cb8f6ef259fb5791f09c065d3d13 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1516133136 127853 b41f58aff49fe1af38af8d065f49d51c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1516125901 723769 048e4d7138b0399950eb11255c81e467 ""
-  "proposal.aux" 1521656224 662 b2b94621371df8d9296b8bf5bec1b851 ""
-  "proposal.out" 1521656224 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "proposal.tex" 1521656224 8096 ec891f69bc35c0d8d4203e51896c89b1 ""
+  "proposal.aux" 1522155358 662 b2b94621371df8d9296b8bf5bec1b851 ""
+  "proposal.out" 1522155358 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "proposal.tex" 1522155354 8205 db0264eef14215c2c9e257dc69d20cae ""
   (generated)
-  "proposal.pdf"
-  "proposal.log"
-  "/home/pietro/.julia/v0.6/Sputnik/proposal/proposal.log"
   "proposal.aux"
-  "proposal.out"
+  "proposal.pdf"
   "/home/pietro/.julia/v0.6/Sputnik/proposal/proposal.pdf"
+  "/home/pietro/.julia/v0.6/Sputnik/proposal/proposal.log"
+  "proposal.log"
+  "proposal.out"
