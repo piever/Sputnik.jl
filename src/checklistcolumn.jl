@@ -22,6 +22,29 @@ isselected(col::ChecklistColumn) = !isempty(observe(col.button).val)
 
 name(col::ChecklistColumn) = col.name
 
+# mutable struct PredicateColumn
+#     name
+#     button
+#     predicate
+# end
+#
+# function parsepredicate(s)
+#     expr = parse("_ -> " * s)
+#     sym = gensym()
+#     flag = Ref(false)
+#     expr = MacroTools.postwalk(x -> x == :(_) ? (flag[] = true; sym) : x, parse(s))
+#     flag[] ? eval(Expr(:->, sym, expr)) : eval(expr)
+# end
+#
+# update_function!(p::SelectPredicate, s) =
+#     try
+#         p.predicate = parsepredicate(s)
+#     end
+#
+#
+# function Sputnik.SelectPredicate(p::PredicateColumn)
+
+
 function checklistcolumns(t::NextTable; nbox = 5)
     v = ChecklistColumn[]
     for n in colnames(t)
@@ -33,8 +56,8 @@ function checklistcolumns(t::NextTable; nbox = 5)
     v
 end
 
-SputnikUtilities.SelectValues(c::ChecklistColumn) =
+Sputnik.SelectValues(c::ChecklistColumn) =
     SelectValues(c.name, selecteditems(c), isselected(c))
 
-SputnikUtilities.Data2Select(t, d::AbstractArray{<:ChecklistColumn}) =
+Sputnik.Data2Select(t, d::AbstractArray{<:ChecklistColumn}) =
     Data2Select(t, Tuple(SelectValues.(d)), ())

@@ -1,1 +1,8 @@
 julia 0.6
+StatPlots
+JuliaDB
+GroupedErrors
+GR
+Compat
+Parameters
+NamedTuples
