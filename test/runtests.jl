@@ -18,7 +18,7 @@ end
     selectdiscrete = (SelectValues(:Minrty, ["Yes"], true), SelectValues(:Sx, ["Male"], false))
     selectcontinuous = (SelectPredicate(:MAch, x -> 6 <= x <= 10),)
     expected = filter(i -> i.Minrty == "Yes" && i.Sx == "Male" && 6 <= i.MAch <= 10, school)
-    @test Sputnik.selectdata(school, selectdiscrete, selectcontinuous) == expected
+    @test Sputnik.selectdata(school, selectdiscrete..., selectcontinuous...) == expected
     d2s  = Data2Select(school, selectdiscrete, selectcontinuous)
     @test SelectedData(d2s) == SelectedData(expected, (:Minrty,))
 end

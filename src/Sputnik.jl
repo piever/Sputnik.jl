@@ -3,7 +3,7 @@ module Sputnik
 using InteractNext, WebIO, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
 using MacroTools
 using GroupedErrors
-using JuliaDB, IndexedTables
+using JuliaDB, IndexedTables, NamedTuples
 using Parameters
 
 import IndexedTables: AbstractIndexedTable
