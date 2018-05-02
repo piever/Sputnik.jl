@@ -12,3 +12,9 @@ function build_plot(t, plot_options, data_columns, smoother)
                  smoother = smoother)
     process(a)
 end
+
+function build_spreadsheet(t, data_columns)
+    s = SelectedData(Data2Select(t, data_columns))
+    it = isempty(s.splitby) ? s.table : reindex(s.table, s.splitby)
+    TableView.showtable(it)
+end

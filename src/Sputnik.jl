@@ -5,6 +5,7 @@ using MacroTools
 using GroupedErrors
 using JuliaDB, IndexedTables, NamedTuples
 using Parameters
+using TableView
 
 import IndexedTables: AbstractIndexedTable
 
