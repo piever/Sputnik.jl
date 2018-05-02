@@ -61,6 +61,7 @@ struct SelectedData{T<:AbstractIndexedTable, N}
 end
 
 SelectedData(d2s::Data2Select) =
-    SelectedData(selectdata(d2s.table, d2s.discrete..., d2s.continuous...), Tuple(i.name for i in d2s.discrete if i.split))
+    SelectedData(selectdata(d2s.table, d2s.discrete..., d2s.continuous...),
+                            Tuple(i.name for i in union(d2s.discrete, d2s.continuous) if i.split))
 
 Base.:(==)(a::SelectedData, b::SelectedData) = (a.table == b.table) && (a.splitby == b.splitby)

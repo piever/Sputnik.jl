@@ -1,5 +1,5 @@
-function build_plot(t, plot_options, data_columns, smoother)
-    s = SelectedData(Data2Select(t, data_columns))
+function build_plot(t, plot_options, checklists, predicates, smoother)
+    s = SelectedData(Data2Select(t, checklists, predicates))
     x, y, plt, axis_type, across = selecteditems(plot_options)
     a = Analysis(data=s,
                  x=x,
@@ -13,8 +13,8 @@ function build_plot(t, plot_options, data_columns, smoother)
     process(a)
 end
 
-function build_spreadsheet(t, data_columns)
-    s = SelectedData(Data2Select(t, data_columns))
+function build_spreadsheet(t, checklists, predicates)
+    s = SelectedData(Data2Select(t, checklists, predicates))
     it = isempty(s.splitby) ? s.table : reindex(s.table, s.splitby)
     TableView.showtable(it)
 end
