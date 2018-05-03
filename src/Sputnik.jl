@@ -1,6 +1,6 @@
 module Sputnik
 
-using InteractNext, WebIO, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
+using InteractNext, WebIO, Vue, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
 import GR
 using MacroTools
 using GroupedErrors
@@ -25,7 +25,9 @@ include(joinpath("techniques", "table.jl"))
 
 include("checklistcolumn.jl")
 include("dropdownmenus.jl")
+include("loadbutton.jl")
 include("layout.jl")
+include("launch.jl")
 include("plot.jl")
 
 end # module
