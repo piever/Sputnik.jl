@@ -48,7 +48,7 @@ PredicateColumn(name) =
                     t -> true)
 
 function parsepredicate(s)
-    s == "" && return :(t -> true)
+    ismatch(r"^(\s)*$$", s) && return :(t -> true)
     expr = parse("_ -> " * s)
     sym = gensym()
     flag = Ref(false)

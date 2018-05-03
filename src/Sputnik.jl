@@ -1,6 +1,7 @@
 module Sputnik
 
 using InteractNext, WebIO, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
+import GR
 using MacroTools
 using GroupedErrors
 using JuliaDB, IndexedTables, NamedTuples
