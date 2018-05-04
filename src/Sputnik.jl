@@ -15,6 +15,8 @@ export SelectPredicate, SelectValues
 export Analysis, process
 export layout, ChecklistColumn, checklistcolumns
 
+const tablefolder = joinpath(homedir(), ".sputnik", "tables")
+const plotfolder = joinpath(homedir(), ".sputnik", "plots")
 
 include("selectdata.jl")
 include("process.jl")

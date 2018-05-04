@@ -1,5 +1,5 @@
 setupfolders() =
-    mkpath.(joinpath.(homedir(), ".sputnik", ["tables", "plots"]))
+    mkpath.([tablefolder, plotfolder])
 
 mutable struct PlotSaver
     name
@@ -12,7 +12,7 @@ PlotSaver(btn = "Save figure as"; label = "name") =
 InteractNext.observe(p::PlotSaver) = observe(p.button)
 
 name(p::PlotSaver) = observe(p.name).val
-filename(p::PlotSaver) = joinpath(homedir(), ".sputnik", "plots", name(p))
+filename(p::PlotSaver) = joinpath(plotfolder, name(p))
 
 mutable struct TableSaver
     name
@@ -26,7 +26,7 @@ TableSaver(btn = "Save table as"; label = "name", checkbox = "select data") =
 InteractNext.observe(p::TableSaver) = observe(p.button)
 
 name(p::TableSaver) = observe(p.name).val
-filename(p::TableSaver) = joinpath(homedir(), ".sputnik", "tables", name(p))
+filename(p::TableSaver) = joinpath(tablefolder, name(p))
 isselected(t::TableSaver) = observe(t.checkbox).val
 
 function _save(t, checklists, predicates, fn, sel)
