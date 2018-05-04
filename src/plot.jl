@@ -13,8 +13,9 @@ function build_plot(t, plot_options, checklists, predicates, smoother)
     process(a)
 end
 
-function build_spreadsheet(t, checklists, predicates)
+build_spreadsheet(t, checklists, predicates) = build_table(t, checklists, predicates) |> TableView.showtable
+
+function build_table(t, checklists, predicates)
     s = SelectedData(Data2Select(t, checklists, predicates))
-    it = isempty(s.splitby) ? s.table : reindex(s.table, s.splitby)
-    TableView.showtable(it)
+    isempty(s.splitby) ? s.table : reindex(s.table, s.splitby)
 end
