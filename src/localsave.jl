@@ -31,5 +31,5 @@ isselected(t::TableSaver) = observe(t.checkbox).val
 
 function _save(t, checklists, predicates, fn, sel)
     t1 = sel ? build_table(t, checklists, predicates) : t
-    JuliaDB.save(t, fn)
+    JuliaDB.save(t1, fn)
 end
