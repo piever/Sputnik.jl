@@ -3,7 +3,7 @@ mutable struct ChecklistItem{T}
     button
 end
 
-ChecklistItem(value) = ChecklistItem(value, checkbox(true, label = string(value)))
+ChecklistItem(value) = ChecklistItem(value, InteractNext.checkbox(true, label = string(value)))
 
 isselected(item::ChecklistItem) = obs(item.button).val
 

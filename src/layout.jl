@@ -4,4 +4,7 @@ layout(cs::AbstractArray{<:AbstractColumn}) = hbox(layout.(cs)...)
 
 layout(cs::AbstractArray{<:DropdownItem}) = hbox(hbox.(hskip(20px), getfield.(cs, :items)))
 
+#layout(p::PlotSaver) = hbox(p.button, p.name)
+#layout(p::TableSaver) = hbox(p.button, vbox(p.checkbox, p.name))
+
 default_plot() = scatter(rand(100))
