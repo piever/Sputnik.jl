@@ -19,10 +19,10 @@ DropdownItem(v, transform = Symbol; label = "select") = DropdownItem(label, drop
 function dropdownrow(t::NextTable)
     n = string.(colnames(t))
     x = DropdownItem(n, label = "x")
-    y = DropdownItem(vcat(["hazard", "density", "cumulative"], n), label = "y")
+    y = DropdownItem(vcat(["density", "cumulative", "hazard"], n), label = "y")
     plotlist = collect(keys(plot_dict))
     plot_type = DropdownItem(plotlist, x -> plot_dict[x], label = "plot")
-    axis_type = DropdownItem(["pointbypoint", "discrete", "binned", "continuous"], label = "axis_type")
+    axis_type = DropdownItem(["auto", "pointbypoint", "discrete", "binned", "continuous"], label = "axis_type")
     across = DropdownItem(vcat(["none", "bootstrap", "across"], "across " .* n),
                           across_map,
                           label = "compute_error")
