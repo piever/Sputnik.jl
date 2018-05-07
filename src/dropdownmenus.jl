@@ -4,7 +4,8 @@ const plot_dict = OrderedDict(
     "bar" => groupedbar,
     "boxplot" => boxplot,
     "violin" => violin,
-    "marginalhist" => marginalhist
+    "histogram2d" => histogram2d,
+    "marginalhist" => marginalhist,
 )
 
 
