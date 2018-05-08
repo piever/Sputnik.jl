@@ -40,5 +40,6 @@ function process(::Type{GroupedError}, a::Analysis)
         s = GroupedErrors._x(s, a.x, a.xfunc)
         s = GroupedErrors._y(s, a.y, a.yfunc)
     end
-    (a.plot == plot) ? @plot(s, a.plot(), :ribbon) : @plot(s, a.plot())
+    plot_closure(args...; kwargs...) = a.plot(args...; kwargs..., a.plot_kwargs...)
+    (a.plot == plot) ? @plot(s, plot_closure(), :ribbon) : @plot(s, plot_closure())
 end

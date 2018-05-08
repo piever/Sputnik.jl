@@ -18,10 +18,11 @@ function set_ui!(ui, t::NextTable)
                          save_table_button.checkbox,
                          save_table_button.name)
     plt = Observable{Any}(default_plot())
+    plt_kwargs = textbox("Insert plot attributes")
     smoother = slider(1:100, label = "smoothing")
     on(x -> plt[] = build_spreadsheet(t, checklists, predicates), observe(spreadsheet_command))
     on(x -> savefig(plt[], filename(save_plot_button)), observe(save_plot_button))
-    onany((x, y) -> plt[] = build_plot(t, plot_options, checklists, predicates, y), observe(plot_command), observe(smoother))
+    onany((x, y) -> plt[] = build_plot(t, plot_options, checklists, predicates, plt_kwargs, y), observe(plot_command), observe(smoother))
     on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
     ui[] = dom"div"(vbox(
@@ -31,6 +32,7 @@ function set_ui!(ui, t::NextTable)
         layout(predicates),
         table_buttons,
         plt),
+        plt_kwargs,
         smoother)
 end
 

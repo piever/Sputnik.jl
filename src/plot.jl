@@ -1,4 +1,4 @@
-function build_plot(t, plot_options, checklists, predicates, smoother)
+function build_plot(t, plot_options, checklists, predicates, plot_kwargs, smoother)
     s = SelectedData(Data2Select(t, checklists, predicates))
     x, y, plt, axis_type, across = selecteditems(plot_options)
     a = Analysis(data=s,
@@ -9,7 +9,8 @@ function build_plot(t, plot_options, checklists, predicates, smoother)
                  plot=plt,
                  compute_error=across,
                  axis_type=axis_type,
-                 smoother = smoother)
+                 smoother = smoother,
+                 plot_kwargs = extract_kwargs(observe(plot_kwargs).val))
     process(a)
 end
 
@@ -19,3 +20,6 @@ function build_table(t, checklists, predicates)
     s = SelectedData(Data2Select(t, checklists, predicates))
     isempty(s.splitby) ? s.table : reindex(s.table, s.splitby)
 end
+
+extract_kwargs(; kwargs...) = kwargs
+extract_kwargs(plot_kwargs) = eval(parse("extract_kwargs($plot_kwargs)"))
