@@ -1,4 +1,4 @@
-set_ui!(ui) = (setupfolders(); loadbutton(ui))
+set_ui!(ui) = (setupfolders(); ui[] = hbox(loadfrommemory(ui), hskip(20px), loadbutton(ui)))
 
 set_ui!(ui, t::AbstractString) = set_ui!(ui, loadtable(t))
 
@@ -34,13 +34,30 @@ function set_ui!(ui, t::NextTable)
         smoother)
 end
 
+function get_ui(args...; kwargs...)
+    ui = Observable{Any}("")
+    set_ui!(ui, args...; kwargs...)
+    ui
+end
+
 # To do: make it work not only in Juno but in every other environment
 
 #_display(t) = display(t)
-function launch(args...; kwargs...)
-    w = Window()
-    ui = Observable{Any}("")
-    set_ui!(ui, args...; kwargs...)
-    body!(w, dom"div"(ui))
-    w
+function launch(args...; env = :blink, page = "/", kwargs...)
+    ui = get_ui(args...; kwargs...)
+    _display(dom"div"(ui), env; page = page)
+end
+
+function _display(t, env; page = "/")
+    if env == :blink
+        w = Window()
+        body!(w, t)
+        w
+    elseif env == :juno
+        display(t)
+    elseif env == :mux
+        webio_serve(WebIO.page(page, req -> t))
+    else
+        error("Only blink, juno and mux supported so far")
+    end
 end

@@ -7,7 +7,7 @@ using GroupedErrors
 using JuliaDB, IndexedTables, NamedTuples
 using Parameters
 using TableView
-using Blink
+using Blink, Mux
 
 import IndexedTables: AbstractIndexedTable
 
