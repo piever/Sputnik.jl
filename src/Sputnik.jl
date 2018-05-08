@@ -19,6 +19,7 @@ export layout, ChecklistColumn, checklistcolumns
 const tablefolder = joinpath(homedir(), ".sputnik", "tables")
 const plotfolder = joinpath(homedir(), ".sputnik", "plots")
 
+include("widgets/inputlist.jl")
 include("selectdata.jl")
 include("process.jl")
 include(joinpath("techniques", "statplotsrecipe.jl"))

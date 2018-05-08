@@ -15,7 +15,7 @@ struct DropdownItem
     transform
 end
 
-DropdownItem(v, transform = Symbol; label = "select") = DropdownItem(label, dropdown(v, label = label), transform)
+DropdownItem(v, transform = Symbol; label = "select") = DropdownItem(label, inputlist(v, label = label), transform)
 
 function dropdownrow(t::NextTable)
     n = string.(colnames(t))

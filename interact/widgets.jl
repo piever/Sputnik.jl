@@ -1,24 +1,3 @@
-## Autocomplete
-using WebIO, Vue, Blink
-w = Window()
-onSelect = """function (event){
-    return this.choice = this.\$refs.ll.value;
-}
-"""
-onSelect = WebIO.JSString(onSelect)
-
-template = dom"div"(
-        dom"input[list=lista, v-on:input=onSelect, ref=ll]"(),
-        dom"datalist[id=lista]"(
-            dom"option[value=xaa]"(),
-            dom"option[value=xab]"()
-        )
-    )
-o = Observable{Any}("")
-
-ui = vue(template, ["choice"=>o], methods = Dict("onSelect"=>onSelect));
-body!(w, ui)
-
 ## spinbox
 
 function spinbox(label="";
