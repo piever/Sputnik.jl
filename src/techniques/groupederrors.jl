@@ -11,18 +11,28 @@ end
 compute_error(s, ::Void) = s
 
 function smoothing_kwargs(a::Analysis)
-    a.axis_type != :continuous && return []
+    iscontinuous(a) || return []
     a.y in colnames(a.data.table) && return [(:span, (a.smoother+1.0)/100)]
     a.y in [:density, :hazard] && return [(:bandwidth, (a.smoother+1.0)*std(column(a.data.table, a.x))/200)]
     return []
 end
 
+ispointbypoint(a::Analysis) =
+    a.axis_type == :pointbypoint || (a.axis_type == :auto) && (a.y in colnames(a.data.table))
+
+isdiscrete(a::Analysis) =
+    a.axis_type == :discrete || (a.axis_type == :auto) && !(eltype(column(a.data.table, a.x))<:Real)
+
+isbinned(a) = a.axis_type == :binned
+
+iscontinuous(a) = !ispointbypoint(a) && !isdiscrete(a) && !isbinned(a)
+
 function process(::Type{GroupedError}, a::Analysis)
     s = GroupedErrors.ColumnSelector(a.data.table)
     s = GroupedErrors._splitby(s, Symbol[a.data.splitby...])
     s = compute_error(s, a.compute_error)
-    if a.axis_type != :pointbypoint
-        maybe_nbins = a.axis_type == :binned ? (round(Int64, 101-a.smoother),) : ()
+    if !ispointbypoint(a)
+        maybe_nbins = isbinned(a) ? (round(Int64, 101-a.smoother),) : ()
         s = GroupedErrors._x(s, a.x, a.axis_type, maybe_nbins...)
         y = a.y in colnames(a.data.table) ? (:locreg, a.y) : (a.y,)
         s = GroupedErrors._y(s, y...; smoothing_kwargs(a)...)
@@ -30,5 +40,6 @@ function process(::Type{GroupedError}, a::Analysis)
         s = GroupedErrors._x(s, a.x, a.xfunc)
         s = GroupedErrors._y(s, a.y, a.yfunc)
     end
-    @plot s a.plot()
+    plot_closure(args...; kwargs...) = a.plot(args...; kwargs..., a.plot_kwargs...)
+    (a.plot == plot) ? @plot(s, plot_closure(), :ribbon) : @plot(s, plot_closure())
 end

@@ -1,21 +1,12 @@
-function loadbutton()
-    o = Observable{Any}("")
-    on(launch, o) # print to console on every update
-    data = Dict("filename" => o )
+function loadbutton(ui)
+    s = choosefile(placeholder="Load file", accept=".csv")
+    on(t -> set_ui!(ui, t), observe(s)) # print to console on every update
+    s
+end
 
-    s = """function (event){
-        var filePath = this.\$refs.data;
-        var fn = filePath.files[0];
-        return this.filename = fn.path
-    }
-    """
-    jfunc = WebIO.JSString(s)
-
-    ui = vue(dom"input[ref=data, type=file, id=input, v-on:change=onFileChange]"(),
-        data, methods = Dict(:onFileChange => jfunc))
-
+function loadfrommemory(ui)
     tables = vcat("", readdir(tablefolder))
-    d = dropdown(tables)
-    on(x -> x!="" && launch(JuliaDB.load(joinpath(tablefolder, x))), observe(d))
-    hbox(pad((:top, :left), 20px, ui), d) |> dom"div"
+    d = dropdown(tables, label="saved")
+    on(x -> x!="" && set_ui!(ui, JuliaDB.load(joinpath(tablefolder, x))), observe(d))
+    d
 end
