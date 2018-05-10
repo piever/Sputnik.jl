@@ -15,8 +15,8 @@ function set_ui!(ui, t::NextTable)
     plot_buttons = hbox(plot_command, save_plot_button.button, save_plot_button.name)
     table_buttons = hbox(spreadsheet_command,
                          save_table_button.button,
-                         save_table_button.checkbox,
-                         save_table_button.name)
+                         save_table_button.name,
+                         save_table_button.checkbox)
     plt = Observable{Any}(default_plot())
     plt_kwargs = textbox("Insert plot attributes")
     smoother = slider(1:100, label = "smoothing")

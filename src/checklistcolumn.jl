@@ -3,9 +3,9 @@ mutable struct ChecklistItem{T}
     button
 end
 
-ChecklistItem(value) = ChecklistItem(value, InteractNative.checkbox(true, label = string(value)))
+ChecklistItem(value) = ChecklistItem(value, checkbox(true, label = string(value)))
 
-isselected(item::ChecklistItem) = obs(item.button).val
+isselected(item::ChecklistItem) = observe(item.button).val
 
 abstract type AbstractColumn; end
 
@@ -16,11 +16,11 @@ mutable struct ChecklistColumn<:AbstractColumn
 end
 
 ChecklistColumn(name, values) =
-    ChecklistColumn(name, checkbox(label = string(name)), ChecklistItem.(values))
+    ChecklistColumn(name, toggle(label = string(name)), ChecklistItem.(values))
 
 selecteditems(col::ChecklistColumn) = [i.value for i in col.items if isselected(i)]
 
-isselected(col::ChecklistColumn) = !isempty(observe(col.button).val)
+isselected(col::ChecklistColumn) = observe(col.button).val
 
 name(col::ChecklistColumn) = col.name
 
@@ -43,8 +43,8 @@ end
 
 PredicateColumn(name) =
     PredicateColumn(name,
-                    checkbox(label = string(name)),
-                    InteractNative.textbox("insert condition"),
+                    toggle(label = string(name)),
+                    textbox("insert condition"),
                     t -> true)
 
 function parsepredicate(s)
@@ -61,7 +61,7 @@ update_function!(p::PredicateColumn, s) =
         @eval ($p).f = $(parsepredicate(s))
     end
 
-isselected(col::PredicateColumn) = !isempty(observe(col.button).val)
+isselected(col::PredicateColumn) = observe(col.button).val
 
 name(col::PredicateColumn) = col.name
 
