@@ -3,7 +3,7 @@ mutable struct ChecklistItem{T}
     button
 end
 
-ChecklistItem(value) = ChecklistItem(value, InteractNext.checkbox(true, label = string(value)))
+ChecklistItem(value) = ChecklistItem(value, InteractNative.checkbox(true, label = string(value)))
 
 isselected(item::ChecklistItem) = obs(item.button).val
 
@@ -16,7 +16,7 @@ mutable struct ChecklistColumn<:AbstractColumn
 end
 
 ChecklistColumn(name, values) =
-    ChecklistColumn(name, togglebuttons([string(name)], multiselect = true), ChecklistItem.(values))
+    ChecklistColumn(name, checkbox(label = string(name)), ChecklistItem.(values))
 
 selecteditems(col::ChecklistColumn) = [i.value for i in col.items if isselected(i)]
 
@@ -43,8 +43,8 @@ end
 
 PredicateColumn(name) =
     PredicateColumn(name,
-                    togglebuttons([string(name)], multiselect = true),
-                    InteractNext.textbox("insert condition"),
+                    checkbox(label = string(name)),
+                    InteractNative.textbox("insert condition"),
                     t -> true)
 
 function parsepredicate(s)

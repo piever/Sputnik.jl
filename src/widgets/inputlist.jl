@@ -14,6 +14,6 @@ function inputlist(options; label = "", placeholder = options[1])
     )
     o = Observable(placeholder)
     ui = vue(template, ["text"=>o], methods = Dict("onSelect"=>onSelect));
-    InteractNext.primary_obs!(ui, "text")
+    InteractNative.primary_obs!(ui, "text")
     ui
 end

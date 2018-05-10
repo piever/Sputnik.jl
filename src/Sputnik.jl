@@ -1,6 +1,6 @@
 module Sputnik
 
-using InteractNext, WebIO, Vue, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
+using InteractNative, WebIO, Vue, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
 import GR
 using MacroTools
 using GroupedErrors
