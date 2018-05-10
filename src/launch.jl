@@ -12,8 +12,9 @@ function set_ui!(ui, t::NextTable)
     spreadsheet_command = button("Spreadsheet")
     save_plot_button = PlotSaver()
     save_table_button = TableSaver()
-    plot_buttons = hbox(plot_command, save_plot_button.button, save_plot_button.name)
+    plot_buttons = hbox(plot_command, hskip(20px), save_plot_button.button, save_plot_button.name)
     table_buttons = hbox(spreadsheet_command,
+                         hskip(20px),
                          save_table_button.button,
                          save_table_button.name,
                          save_table_button.checkbox)
@@ -25,15 +26,29 @@ function set_ui!(ui, t::NextTable)
     onany((x, y) -> plt[] = build_plot(t, plot_options, checklists, predicates, plt_kwargs, y), observe(plot_command), observe(smoother))
     on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
-    ui[] = dom"div"(vbox(
+
+    loadandplot = dom"section.section"(
         hbox(d_obs, hskip(20px), s),
-        hbox(layout(plot_options), hskip(20px), plot_buttons),
+        vskip(20px),
+        hbox(layout(plot_options), hskip(20px), plot_buttons)
+    )
+    selection = dom"section.section"(
         layout(checklists),
+        vskip(20px),
         layout(predicates),
+    )
+    plot_area = dom"section.section"(
         table_buttons,
-        plt),
+        vskip(20px),
+        plt,
         plt_kwargs,
-        smoother)
+        smoother
+    )
+    ui[] = dom"div"(
+        loadandplot,
+        selection,
+        plot_area
+    )
 end
 
 function get_ui(args...; kwargs...)
