@@ -1,6 +1,10 @@
 module Sputnik
 
-using InteractNext, WebIO, Vue, CSSUtil, JuliaDB, StatPlots, DataStructures, Observables
+using InteractNative
+using InteractBulma
+using StatPlots
+using WebIO, Vue, CSSUtil, JuliaDB, DataStructures, Observables
+import InteractNative: primary_obs!, observe
 import GR
 using MacroTools
 using GroupedErrors
@@ -19,7 +23,6 @@ export layout, ChecklistColumn, checklistcolumns
 const tablefolder = joinpath(homedir(), ".sputnik", "tables")
 const plotfolder = joinpath(homedir(), ".sputnik", "plots")
 
-include("widgets/inputlist.jl")
 include("selectdata.jl")
 include("process.jl")
 include(joinpath("techniques", "statplotsrecipe.jl"))
