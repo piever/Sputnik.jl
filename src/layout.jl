@@ -1,7 +1,6 @@
 layout(c::ChecklistColumn) = dom"div.column"(c.button, getfield.(c.items, :button)...)
 layout(c::PredicateColumn) = dom"div.column"(c.button, c.predicate)
-layout(cs::AbstractArray{<:ChecklistColumn}) = hbox(hbox.(layout.(cs), hskip(20px)))
-layout(cs::AbstractArray{<:AbstractColumn}) = dom"div.columns"(layout.(cs)...)
+layout(cs::AbstractArray{<:AbstractColumn}) = Node(:div, className = "columns is-multiline")(layout.(cs)...)
 
 layout(cs::AbstractArray{<:DropdownItem}) = hbox(hbox.(getfield.(cs, :items), hskip(20px)))
 
