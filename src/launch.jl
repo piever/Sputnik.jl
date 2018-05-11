@@ -17,6 +17,7 @@ function set_ui!(ui, t::NextTable)
                          hskip(20px),
                          save_table_button.button,
                          save_table_button.name,
+                         hskip(20px),
                          save_table_button.checkbox)
     plt = Observable{Any}(default_plot())
     plt_kwargs = textbox("Insert plot attributes")
@@ -27,17 +28,17 @@ function set_ui!(ui, t::NextTable)
     on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
 
-    loadandplot = dom"section.section"(
+    loadandplot = dom"div"(
         hbox(d_obs, hskip(20px), s),
         vskip(20px),
         hbox(layout(plot_options), hskip(20px), plot_buttons)
     )
-    selection = dom"section.section"(
+    selection = dom"div"(
         layout(checklists),
         vskip(20px),
         layout(predicates),
     )
-    plot_area = dom"section.section"(
+    plot_area = dom"div"(
         table_buttons,
         vskip(20px),
         plt,
@@ -46,7 +47,9 @@ function set_ui!(ui, t::NextTable)
     )
     ui[] = dom"div"(
         loadandplot,
+        vskip(20px),
         selection,
+        vskip(20px),
         plot_area
     )
 end
