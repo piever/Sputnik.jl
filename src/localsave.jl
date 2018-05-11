@@ -21,7 +21,7 @@ mutable struct TableSaver
 end
 
 TableSaver(btn = "Save table as"; label = "name", checkbox = "select data") =
-    TableSaver(textbox(label), button(btn), InteractNative.checkbox(true, label = checkbox))
+    TableSaver(textbox(label), button(btn), InteractBase.checkbox(true, label = checkbox))
 
 observe(p::TableSaver) = observe(p.button)
 

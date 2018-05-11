@@ -15,7 +15,7 @@ To install Sputnik and its dependencies type in the REPL:
 
 ```julia
 Pkg.clone("https://github.com/piever/Sputnik.jl")
-Pkg.clone("https://github.com/piever/InteractNative.jl")
+Pkg.clone("https://github.com/piever/InteractBase.jl")
 Pkg.clone("https://github.com/piever/InteractBulma.jl")
 Pkg.clone("https://github.com/JuliaComputing/TableView.jl")
 ```

@@ -1,10 +1,10 @@
 module Sputnik
 
-using InteractNative
+using InteractBase
 using InteractBulma
 using StatPlots
 using WebIO, Vue, CSSUtil, JuliaDB, DataStructures, Observables
-import InteractNative: primary_obs!, observe
+import InteractBase: primary_obs!, observe
 import GR
 using MacroTools
 using GroupedErrors
