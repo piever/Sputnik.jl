@@ -17,6 +17,7 @@ To install Sputnik and its dependencies type in the REPL:
 Pkg.clone("https://github.com/piever/Sputnik.jl")
 Pkg.clone("https://github.com/piever/InteractBase.jl")
 Pkg.clone("https://github.com/piever/InteractSpectre.jl")
+Pkg.build("https://github.com/piever/InteractSpectre.jl")
 Pkg.clone("https://github.com/JuliaComputing/TableView.jl")
 ```
 

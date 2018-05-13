@@ -28,11 +28,6 @@ function set_ui!(ui, t::NextTable)
     on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
 
-    loadandplot = dom"div"(
-        hbox(d_obs, hskip(20px), s),
-        vskip(20px),
-        hbox(layout(plot_options), hskip(20px), plot_buttons)
-    )
     selection = dom"div"(
         layout(checklists),
         vskip(20px),
@@ -45,12 +40,17 @@ function set_ui!(ui, t::NextTable)
         plt_kwargs,
         smoother
     )
-    ui[] = dom"div"(
-        loadandplot,
-        vskip(20px),
-        selection,
-        vskip(20px),
-        plot_area
+
+    ui[] = dom"div.columns"(
+        dom"div.column.col-5.bg-secondary[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
+            pad(1em, d_obs),
+            pad(1em, s),
+            pad(1em, selection)
+        ),
+        dom"div.column.col-7[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
+            layout(plot_options),
+            plot_buttons,
+            plot_area),
     )
 end
 
