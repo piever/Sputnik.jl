@@ -28,19 +28,6 @@ function set_ui!(ui, t::NextTable)
     on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
 
-    menu = togglebuttons(["Load", "Filter"])
-
-    onjs(observe(menu), js"""
-        function (name) {
-            var i;
-            var x = document.getElementsByClassName("menu-entry");
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            document.getElementById(name.toLowerCase()).style.display = "block";
-        }
-    """)
-
     selection = dom"div"(
         layout(checklists),
         vskip(20px),
@@ -54,14 +41,16 @@ function set_ui!(ui, t::NextTable)
         smoother
     )
 
+    menu_buttons = togglebuttons(["Load", "Filter"])
+    menu_dict = Dict(
+        "Load" => dom"div"(pad(1em, d_obs), pad(1em, s)),
+        "Filter" => pad(1em, selection)
+    )
+
     ui[] = dom"div.columns"(
         dom"div.column.col-5.bg-secondary[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
-            pad(1em, menu),
-            dom"div.menu-entry#load[style=display:none]"(
-                pad(1em, d_obs),
-                pad(1em, s),
-            ),
-            dom"div.menu-entry#filter[style=display:none]"(pad(1em, selection))
+            pad(1em, menu_buttons),
+            map(t -> get(menu_dict, t, dom"div"()), observe(menu_buttons))
         ),
         dom"div.column.col-7[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
             layout(plot_options),
