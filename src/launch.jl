@@ -20,9 +20,10 @@ function set_ui!(ui, t::NextTable)
                          hskip(20px),
                          save_table_button.checkbox)
     plt = Observable{Any}(default_plot())
+    spreadsheet =  Observable{Any}(dom"div"(""))
     plt_kwargs = textbox("Insert plot attributes")
     smoother = slider(1:100, label = "smoothing")
-    on(x -> plt[] = build_spreadsheet(t, checklists, predicates), observe(spreadsheet_command))
+    on(x -> spreadsheet[] = build_spreadsheet(t, checklists, predicates), observe(spreadsheet_command))
     on(x -> savefig(plt[], filename(save_plot_button)), observe(save_plot_button))
     onany((x, y) -> plt[] = build_plot(t, plot_options, checklists, predicates, plt_kwargs, y), observe(plot_command), observe(smoother))
     on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
@@ -33,27 +34,37 @@ function set_ui!(ui, t::NextTable)
         vskip(20px),
         layout(predicates),
     )
-    plot_area = dom"div"(
-        table_buttons,
-        vskip(20px),
+
+    left_menu_buttons = togglebuttons(["Load", "Filter"])
+    left_menu_content = mask(["Load", "Filter"], [dom"div"(pad(1em, d_obs), pad(1em, s)), pad(1em, selection)],
+        key = observe(left_menu_buttons))
+
+    right_menu_buttons = togglebuttons(["Table", "Graph"])
+    plot_view = dom"div"(
+        layout(plot_options),
+        plot_buttons,
         plt,
         plt_kwargs,
         smoother
     )
+    spreadsheet_view = dom"div"(
+        table_buttons,
+        vskip(20px),
+        spreadsheet,
+    )
 
-    menu_buttons = togglebuttons(["Load", "Filter"])
-    menu_dict = mask(["Load", "Filter"], [dom"div"(pad(1em, d_obs), pad(1em, s)), pad(1em, selection)],
-        key = observe(menu_buttons))
+    right_menu_content = mask(["Table", "Graph"], [spreadsheet_view, plot_view],
+        key = observe(right_menu_buttons))
 
     ui[] = dom"div.columns"(
         dom"div.column.col-5.bg-secondary[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
-            pad(1em, menu_buttons),
-            menu_dict
+            pad(1em, left_menu_buttons),
+            left_menu_content
         ),
         dom"div.column.col-7[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
-            layout(plot_options),
-            plot_buttons,
-            plot_area),
+            pad(1em, right_menu_buttons),
+            pad(1em, right_menu_content)
+        )
     )
 end
 
