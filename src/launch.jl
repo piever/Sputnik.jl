@@ -42,15 +42,13 @@ function set_ui!(ui, t::NextTable)
     )
 
     menu_buttons = togglebuttons(["Load", "Filter"])
-    menu_dict = Dict(
-        "Load" => dom"div"(pad(1em, d_obs), pad(1em, s)),
-        "Filter" => pad(1em, selection)
-    )
+    menu_dict = mask(["Load", "Filter"], [dom"div"(pad(1em, d_obs), pad(1em, s)), pad(1em, selection)],
+        key = observe(menu_buttons))
 
     ui[] = dom"div.columns"(
         dom"div.column.col-5.bg-secondary[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
             pad(1em, menu_buttons),
-            map(t -> get(menu_dict, t, dom"div"()), observe(menu_buttons))
+            menu_dict
         ),
         dom"div.column.col-7[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
             layout(plot_options),
