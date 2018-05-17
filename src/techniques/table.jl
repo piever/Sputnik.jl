@@ -1,4 +1,4 @@
-IndexedTables.table(s::SelectedData) = reindex(s.table, s.splitby)
+IndexedTables.table(s::SelectedData) = isempty(values(s.splitby)) ? s.table : reindex(s.table, Tuple(values(s.splitby)))
 IndexedTables.table(s::Data2Select) = table(SelectedData(s))
 IndexedTables.table(a::Analysis) = table(a.data)
 

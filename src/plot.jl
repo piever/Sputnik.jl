@@ -16,10 +16,7 @@ end
 
 build_spreadsheet(t, checklists, predicates) = build_table(t, checklists, predicates) |> TableView.showtable
 
-function build_table(t, checklists, predicates)
-    s = SelectedData(Data2Select(t, checklists, predicates))
-    isempty(s.splitby) ? s.table : reindex(s.table, s.splitby)
-end
+build_table(t, checklists, predicates) = table(Data2Select(t, checklists, predicates))
 
 extract_kwargs(; kwargs...) = kwargs
 extract_kwargs(plot_kwargs) = eval(parse("extract_kwargs($plot_kwargs)"))

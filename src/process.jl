@@ -1,5 +1,5 @@
-@with_kw struct Analysis{T, N}
-    data::SelectedData{T, N}
+@with_kw struct Analysis{T}
+    data::SelectedData{T}
     compute_error = nothing
     x = nothing
     y = nothing

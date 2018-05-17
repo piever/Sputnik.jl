@@ -3,11 +3,10 @@ abstract type AbstractSelector; end
 struct SelectValues{T}<:AbstractSelector
     name::Symbol
     values::Vector{T}
-    split::Bool
     filter::Bool
 end
 
-SelectValues(name, values, split = false) = SelectValues(name, values, split, true)
+SelectValues(name, values) = SelectValues(name, values, false)
 
 _select_el(el, s::SelectValues) = el in s.values
 
@@ -15,22 +14,20 @@ struct SelectWithin{T}<:AbstractSelector
     name::Symbol
     min::T
     max::T
-    split::Bool
     filter::Bool
 end
 
-SelectWithin(name, min, max, split = false) = SelectWithin(name, min, max, split, true)
+SelectWithin(name, min, max) = SelectWithin(name, min, max, false)
 
 _select_el(el, s::SelectWithin) = s.min <= el <= s.max
 
 struct SelectPredicate{T}<:AbstractSelector
     name::Symbol
     f::T
-    split::Bool
     filter::Bool
 end
 
-SelectPredicate(name, f, split = false) = SelectPredicate(name, f, split, true)
+SelectPredicate(name, f) = SelectPredicate(name, f, false)
 
 _select_el(el, s::SelectPredicate) = s.f(el)
 
@@ -55,13 +52,12 @@ struct Data2Select{T<:AbstractIndexedTable, N1, N2}
     continuous::NTuple{N2, SelectPredicate}
 end
 
-struct SelectedData{T<:AbstractIndexedTable, N}
+struct SelectedData{T<:AbstractIndexedTable}
     table::T
-    splitby::NTuple{N, Symbol}
+    splitby::Dict{Symbol, Symbol}
 end
 
 SelectedData(d2s::Data2Select) =
-    SelectedData(selectdata(d2s.table, d2s.discrete..., d2s.continuous...),
-                            Tuple(i.name for i in union(d2s.discrete, d2s.continuous) if i.split))
+    SelectedData(selectdata(d2s.table, d2s.discrete..., d2s.continuous...), Dict{Symbol, Symbol}())
 
 Base.:(==)(a::SelectedData, b::SelectedData) = (a.table == b.table) && (a.splitby == b.splitby)
