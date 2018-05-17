@@ -22,6 +22,7 @@ export layout, ChecklistColumn, checklistcolumns
 
 const tablefolder = joinpath(homedir(), ".sputnik", "tables")
 const plotfolder = joinpath(homedir(), ".sputnik", "plots")
+const styles = ["color", "markersize", "markershape", "linestyle", "linewidth"]
 
 include("selectdata.jl")
 include("process.jl")
@@ -32,6 +33,7 @@ include(joinpath("techniques", "table.jl"))
 
 include("checklistcolumn.jl")
 include("dropdownmenus.jl")
+include("stylechooser.jl")
 include("loadbutton.jl")
 include("localsave.jl")
 include("layout.jl")

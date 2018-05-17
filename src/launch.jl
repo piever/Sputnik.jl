@@ -8,6 +8,7 @@ function set_ui!(ui, t::NextTable)
     s = loadbutton(ui)
     plot_options = dropdownrow(t)
     checklists, predicates = selectioncolumns(t)
+    stylediscrete, stylecontinuous = stylechoosers(t)
     plot_command = button("Plot")
     spreadsheet_command = button("Spreadsheet")
     save_plot_button = PlotSaver()
@@ -34,8 +35,13 @@ function set_ui!(ui, t::NextTable)
         layout(predicates),
     )
 
-    left_menu_buttons = togglebuttons(["Load", "Filter"])
-    left_menu_content = mask(["Load", "Filter"], [dom"div"(pad(1em, d_obs), pad(1em, s)), pad(1em, selection)],
+    left_menu_buttons = togglebuttons(["Load", "Filter", "Style"])
+    left_menu_content = mask(["Load", "Filter", "Style"],
+        [
+            dom"div"(pad(1em, d_obs), pad(1em, s)),
+            pad(1em, selection),
+            pad(1em, dom"div.columns"(layout.((stylediscrete, stylecontinuous))...))
+        ],
         key = observe(left_menu_buttons))
 
     right_menu_buttons = togglebuttons(["Table", "Graph"])
