@@ -29,9 +29,8 @@ function set_ui!(ui, t::NextTable)
     on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
 
-    selection = dom"div"(
+    selection = dom"div.columns"(
         layout(checklists),
-        vskip(20px),
         layout(predicates),
     )
 
