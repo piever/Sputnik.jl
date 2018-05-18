@@ -29,7 +29,7 @@ name(p::TableSaver) = observe(p.name).val
 filename(p::TableSaver) = joinpath(tablefolder, name(p))
 isselected(t::TableSaver) = observe(t.checkbox).val
 
-function _save(t, checklists, predicates, fn, sel)
-    t1 = sel ? build_table(t, checklists, predicates) : t
+function _save(t, checklists, predicates, style, fn, sel)
+    t1 = sel ? build_table(t, checklists, predicates, style) : t
     JuliaDB.save(t1, fn)
 end

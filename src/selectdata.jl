@@ -55,11 +55,12 @@ end
 struct SelectedData{T<:AbstractIndexedTable}
     table::T
     categoricalstyle::OrderedDict{Symbol, Symbol}
-    continousstyle::OrderedDict{Symbol, Symbol}
+    continuousstyle::OrderedDict{Symbol, Symbol}
 end
 
 SelectedData(d2s::Data2Select) =
     SelectedData(selectdata(d2s.table, d2s.discrete..., d2s.continuous...), OrderedDict{Symbol, Symbol}(), OrderedDict{Symbol, Symbol}())
 
 splitby(sd::SelectedData) = Tuple(keys(sd.categoricalstyle))
+orderby(sd::SelectedData) = tuple(keys(sd.categoricalstyle)..., keys(sd.continuousstyle)...)
 # Base.:(==)(a::SelectedData, b::SelectedData) = (a.table == b.table) && (a.splitby == b.splitby)

@@ -29,3 +29,4 @@ end
 
 process(a::Analysis) = process(analysistype(a), a)
 splitby(a::Analysis) = splitby(a.data)
+orderby(a::Analysis) = orderby(a.data)
