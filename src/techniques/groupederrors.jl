@@ -29,7 +29,7 @@ iscontinuous(a) = !ispointbypoint(a) && !isdiscrete(a) && !isbinned(a)
 
 function process(::Type{GroupedError}, a::Analysis)
     s = GroupedErrors.ColumnSelector(a.data.table)
-    s = GroupedErrors._splitby(s, Symbol[values(a.data.splitby)...])
+    s = GroupedErrors._splitby(s, Symbol[splitby(a)...])
     s = compute_error(s, a.compute_error)
     if !ispointbypoint(a)
         maybe_nbins = isbinned(a) ? (round(Int64, 101-a.smoother),) : ()

@@ -28,3 +28,4 @@ function analysistype(a)
 end
 
 process(a::Analysis) = process(analysistype(a), a)
+splitby(a::Analysis) = splitby(a.data)
