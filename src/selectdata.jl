@@ -60,6 +60,7 @@ end
 
 SelectedData(d2s::Data2Select) =
     SelectedData(selectdata(d2s.table, d2s.discrete..., d2s.continuous...), OrderedDict{Symbol, Symbol}(), OrderedDict{Symbol, Symbol}())
+SelectedData(t::AbstractIndexedTable) = SelectedData(t::AbstractIndexedTable, OrderedDict{Symbol, Symbol}(), OrderedDict{Symbol, Symbol}())
 
 splitby(sd::SelectedData) = Tuple(keys(sd.categoricalstyle))
 orderby(sd::SelectedData) = tuple(keys(sd.categoricalstyle)..., keys(sd.continuousstyle)...)
