@@ -8,6 +8,8 @@ function set_ui!(ui, t::NextTable)
     s = loadbutton(ui)
     plot_options = dropdownrow(t)
     checklists, predicates = selectioncolumns(t)
+    categoricalstyle, continuousstyle = stylechoosers(t)
+    style = vcat(categoricalstyle, continuousstyle)
     plot_command = button("Plot")
     spreadsheet_command = button("Spreadsheet")
     save_plot_button = PlotSaver()
@@ -23,20 +25,24 @@ function set_ui!(ui, t::NextTable)
     spreadsheet =  Observable{Any}(dom"div"(""))
     plt_kwargs = textbox("Insert plot attributes")
     smoother = slider(1:100, label = "smoothing")
-    on(x -> spreadsheet[] = build_spreadsheet(t, checklists, predicates), observe(spreadsheet_command))
+    on(x -> spreadsheet[] = build_spreadsheet(t, checklists, predicates, style), observe(spreadsheet_command))
     on(x -> savefig(plt[], filename(save_plot_button)), observe(save_plot_button))
-    onany((x, y) -> plt[] = build_plot(t, plot_options, checklists, predicates, plt_kwargs, y), observe(plot_command), observe(smoother))
-    on(x -> (_save(t, checklists, predicates, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
+    onany((x, y) -> plt[] = build_plot(t, plot_options, checklists, predicates, style, plt_kwargs, y), observe(plot_command), observe(smoother))
+    on(x -> (_save(t, checklists, predicates, style, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
 
-    selection = dom"div"(
+    selection = dom"div.columns"(
         layout(checklists),
-        vskip(20px),
         layout(predicates),
     )
 
-    left_menu_buttons = togglebuttons(["Load", "Filter"])
-    left_menu_content = mask(["Load", "Filter"], [dom"div"(pad(1em, d_obs), pad(1em, s)), pad(1em, selection)],
+    left_menu_buttons = togglebuttons(["Load", "Filter", "Style"])
+    left_menu_content = mask(["Load", "Filter", "Style"],
+        [
+            dom"div"(pad(1em, d_obs), pad(1em, s)),
+            pad(1em, selection),
+            pad(1em, dom"div.columns"(layout.((categoricalstyle, continuousstyle))...))
+        ],
         key = observe(left_menu_buttons))
 
     right_menu_buttons = togglebuttons(["Table", "Graph"])

@@ -1,5 +1,5 @@
 function loadbutton(ui)
-    s = choosefile(placeholder="Load file", accept=".csv")
+    s = filepicker(placeholder="Load file", accept=".csv")
     on(t -> set_ui!(ui, t), observe(s)) # print to console on every update
     s
 end

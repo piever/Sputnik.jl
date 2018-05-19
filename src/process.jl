@@ -1,5 +1,5 @@
-@with_kw struct Analysis{T, N}
-    data::SelectedData{T, N}
+@with_kw struct Analysis{T}
+    data::SelectedData{T}
     compute_error = nothing
     x = nothing
     y = nothing
@@ -28,3 +28,5 @@ function analysistype(a)
 end
 
 process(a::Analysis) = process(analysistype(a), a)
+splitby(a::Analysis) = splitby(a.data)
+orderby(a::Analysis) = orderby(a.data)

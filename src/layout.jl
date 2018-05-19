@@ -1,8 +1,10 @@
-layout(c::ChecklistColumn) = dom"div.column"(c.button, getfield.(c.items, :button)...)
-layout(c::PredicateColumn) = dom"div.column"(c.button, c.predicate)
-layout(cs::AbstractArray{<:AbstractColumn}) = Node(:div, className = "columns")(layout.(cs)...)
+layout(c::ChecklistColumn) = dom"div.column"(c.button, mask(["true"], [dom"div"(getfield.(c.items, :button)...)], key = observe(c.button)))
+layout(c::PredicateColumn) = dom"div.column"(c.button, mask(["true"], [c.predicate], key = observe(c.button)))
+layout(c::StyleChooser) = dom"div.column"(c.button, mask(["true"], [layout(c.style)], key = observe(c.button)))
+layout(cs::AbstractArray{<:AbstractColumn}) = Node(:div, className = "column")(layout.(cs)...)
 
-layout(cs::AbstractArray{<:DropdownItem}) = hbox(hbox.(getfield.(cs, :items), hskip(20px)))
+layout(c::DropdownItem) = c.items
+layout(cs::AbstractArray{<:DropdownItem}) = hbox(hbox.(layout.(cs), hskip(20px)))
 
 #layout(p::PlotSaver) = hbox(p.button, p.name)
 #layout(p::TableSaver) = hbox(p.button, vbox(p.checkbox, p.name))
