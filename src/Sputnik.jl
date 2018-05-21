@@ -1,7 +1,7 @@
 module Sputnik
 
 using InteractBase
-using InteractSpectre
+using InteractBulma
 using StatPlots
 using WebIO, Vue, CSSUtil, JuliaDB, DataStructures, Observables
 import InteractBase: primary_obs!, observe
