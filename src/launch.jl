@@ -43,11 +43,12 @@ function set_ui!(ui, t::NextTable)
             pad(1em, selection),
             pad(1em, dom"div.columns"(layout.((categoricalstyle, continuousstyle))...))
         ],
-        key = left_menu_buttons["index"])
+        key = observe(left_menu_buttons, "index"))
 
     right_menu_buttons = togglebuttons(["Table", "Graph"], selected = 1)
     plot_view = dom"div"(
         layout(plot_options),
+        vskip(2em),
         plot_buttons,
         plt,
         plt_kwargs,
@@ -60,7 +61,7 @@ function set_ui!(ui, t::NextTable)
     )
 
     right_menu_content = mask([spreadsheet_view, plot_view],
-        key = right_menu_buttons["index"])
+        key = observe(right_menu_buttons, "index"))
 
     ui[] = dom"div.columns"(
         dom"div.column.is-two-fifths.has-background-light[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
