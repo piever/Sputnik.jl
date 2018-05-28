@@ -36,16 +36,13 @@ function set_ui!(ui, t::NextTable)
         layout(predicates),
     )
 
-    left_menu_buttons = togglebuttons(["Load", "Filter", "Style"], selected = 1)
-    left_menu_content = mask(
+    left_menu = tabulator(["Load", "Filter", "Style"],
         [
             dom"div"(pad(1em, d_obs), pad(1em, s)),
             pad(1em, selection),
             pad(1em, dom"div.columns"(layout.((categoricalstyle, continuousstyle))...))
-        ],
-        key = observe(left_menu_buttons, "index"))
+        ], value=1)
 
-    right_menu_buttons = togglebuttons(["Table", "Graph"], selected = 1)
     plot_view = dom"div"(
         layout(plot_options),
         vskip(2em),
@@ -60,17 +57,14 @@ function set_ui!(ui, t::NextTable)
         spreadsheet,
     )
 
-    right_menu_content = mask([spreadsheet_view, plot_view],
-        key = observe(right_menu_buttons, "index"))
+    right_menu = tabulator(["Table", "Graph"], value = 1, [spreadsheet_view, plot_view])
 
     ui[] = dom"div.columns"(
         dom"div.column.is-two-fifths.has-background-light[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
-            pad(1em, left_menu_buttons),
-            left_menu_content
+            pad(1em, left_menu)
         ),
         dom"div.column[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
-            pad(1em, right_menu_buttons),
-            pad(1em, right_menu_content)
+            pad(1em, right_menu)
         )
     )
 end

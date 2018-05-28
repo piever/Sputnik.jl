@@ -1,6 +1,6 @@
-layout(c::ChecklistColumn) = dom"div.column"(c.button, mask(["true"], [dom"div"(getfield.(c.items, :button)...)], key = observe(c.button)))
-layout(c::PredicateColumn) = dom"div.column"(c.button, mask(["true"], [c.predicate], key = observe(c.button)))
-layout(c::StyleChooser) = dom"div.column"(c.button, mask(["true"], [layout(c.style)], key = observe(c.button)))
+layout(c::ChecklistColumn) = dom"div.column"(c.button, _mask(observe(c.button), ["true"], [dom"div"(getfield.(c.items, :button)...)]))
+layout(c::PredicateColumn) = dom"div.column"(c.button, _mask(observe(c.button), ["true"], [c.predicate]))
+layout(c::StyleChooser) = dom"div.column"(c.button, _mask(observe(c.button), ["true"], [layout(c.style)]))
 layout(cs::AbstractArray{<:AbstractColumn}) = Node(:div, className = "column")(layout.(cs)...)
 
 layout(c::DropdownItem) = c.items
