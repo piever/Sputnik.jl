@@ -1,7 +1,6 @@
 module Sputnik
 
 using InteractBase
-import InteractBase: tabulator, _mask
 using InteractBulma
 using StatPlots
 using WebIO, Vue, CSSUtil, JuliaDB, DataStructures, Observables

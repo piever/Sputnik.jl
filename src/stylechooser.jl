@@ -1,6 +1,6 @@
 mutable struct StyleChooser<:AbstractColumn
     name::Symbol
-    widget::Union{WebIO.Scope, WebIO.Node}
+    widget
     style::DropdownItem
     categorical::Bool
 end

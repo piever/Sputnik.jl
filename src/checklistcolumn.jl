@@ -2,8 +2,8 @@ abstract type AbstractColumn; end
 
 mutable struct ChecklistColumn<:AbstractColumn
     name::Symbol
-    widget::Union{WebIO.Scope, WebIO.Node}
-    items::Union{WebIO.Scope, WebIO.Node}
+    widget
+    items
 end
 
 function ChecklistColumn(name::Symbol, values::Vector; vskip = 0em, kwargs...)
@@ -25,10 +25,10 @@ Sputnik.SelectValues(c::ChecklistColumn) =
 
 mutable struct PredicateColumn<:AbstractColumn
     name::Symbol
-    widget::Union{WebIO.Scope, WebIO.Node}
-    predicate::Union{WebIO.Scope, WebIO.Node}
+    widget
+    predicate
     f
-    function PredicateColumn(name::Symbol, widget::Union{WebIO.Scope, WebIO.Node}, predicate::Union{WebIO.Scope, WebIO.Node}, f)
+    function PredicateColumn(name::Symbol, widget, predicate, f)
         s = new(name, widget, predicate, f)
         on(x -> (update_function!(s, x)), observe(s.predicate))
         s
