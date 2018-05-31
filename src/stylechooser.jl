@@ -1,12 +1,15 @@
 mutable struct StyleChooser<:AbstractColumn
     name::Symbol
-    button
+    widget::Union{WebIO.Scope, WebIO.Node}
     style::DropdownItem
     categorical::Bool
 end
 
-StyleChooser(name::Symbol, options::AbstractArray = styles; categorical = true) =
-    StyleChooser(name, toggle(label = string(name)), DropdownItem(string.(options), label = nothing), categorical)
+function StyleChooser(name::Symbol, options::AbstractArray = styles; categorical=true, vskip=0em, kwargs...)
+    dropdown = DropdownItem(string.(options), label = nothing)
+    ui = togglecontent(layout(dropdown); label=string(name), vskip=vskip, kwargs...)
+    StyleChooser(name, ui, dropdown, categorical)
+end
 
 function stylechoosers(t::NextTable, nbox = 5)
     v = StyleChooser[]
@@ -22,7 +25,7 @@ function stylechoosers(t::NextTable, nbox = 5)
     v, w
 end
 
-isselected(t::StyleChooser) = observe(t.button).val
+isselected(t::StyleChooser) = observe(t.widget)[]
 selecteditems(t::StyleChooser) = selecteditems(t.style)
 
 function update!(s::SelectedData, cs::AbstractArray{<:StyleChooser})

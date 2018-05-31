@@ -1,26 +1,20 @@
-mutable struct ChecklistItem{T}
-    value::T
-    button
-end
-
-ChecklistItem(value) = ChecklistItem(value, checkbox(true, label = string(value)))
-
-isselected(item::ChecklistItem) = observe(item.button).val
-
 abstract type AbstractColumn; end
 
 mutable struct ChecklistColumn<:AbstractColumn
-    name
-    button
-    items::Vector{<:ChecklistItem}
+    name::Symbol
+    widget::Union{WebIO.Scope, WebIO.Node}
+    items::Union{WebIO.Scope, WebIO.Node}
 end
 
-ChecklistColumn(name, values) =
-    ChecklistColumn(name, toggle(label = string(name)), ChecklistItem.(values))
+function ChecklistColumn(name::Symbol, values::Vector; vskip = 0em, kwargs...)
+    cb = checkboxes(values, value = values)
+    ui = togglecontent(cb, label = string(name); vskip=vskip, kwargs...)
+    ChecklistColumn(name, ui, cb)
+end
 
-selecteditems(col::ChecklistColumn) = [i.value for i in col.items if isselected(i)]
+selecteditems(col::ChecklistColumn) = observe(col.items)[]
 
-isselected(col::ChecklistColumn) = observe(col.button).val
+isselected(col::ChecklistColumn) = observe(col.widget)[]
 
 name(col::ChecklistColumn) = col.name
 
@@ -30,22 +24,22 @@ Sputnik.SelectValues(c::ChecklistColumn) =
 # _true(t) = true
 
 mutable struct PredicateColumn<:AbstractColumn
-    name
-    button
-    predicate
+    name::Symbol
+    widget::Union{WebIO.Scope, WebIO.Node}
+    predicate::Union{WebIO.Scope, WebIO.Node}
     f
-    function PredicateColumn(name, button, predicate, f)
-        s = new(name, button, predicate, f)
+    function PredicateColumn(name::Symbol, widget::Union{WebIO.Scope, WebIO.Node}, predicate::Union{WebIO.Scope, WebIO.Node}, f)
+        s = new(name, widget, predicate, f)
         on(x -> (update_function!(s, x)), observe(s.predicate))
         s
     end
 end
 
-PredicateColumn(name) =
-    PredicateColumn(name,
-                    toggle(label = string(name)),
-                    textbox("insert condition"),
-                    t -> true)
+function PredicateColumn(name; vskip = 0em, kwargs...)
+    tb = textbox("insert condition")
+    ui = togglecontent(tb, label = string(name); vskip=vskip, kwargs...)
+    PredicateColumn(name, ui, tb, t -> true)
+end
 
 function parsepredicate(s)
     ismatch(r"^(\s)*$", s) && return :(t -> true)
@@ -61,7 +55,7 @@ update_function!(p::PredicateColumn, s) =
         @eval ($p).f = $(parsepredicate(s))
     end
 
-isselected(col::PredicateColumn) = observe(col.button).val
+isselected(col::PredicateColumn) = observe(col.widget)[]
 
 name(col::PredicateColumn) = col.name
 
