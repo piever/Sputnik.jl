@@ -60,10 +60,10 @@ function set_ui!(ui, t::NextTable)
     right_menu = tabulator(["Table", "Graph"], value = 1, [spreadsheet_view, plot_view])
 
     ui[] = dom"div.columns"(
-        dom"div.column.is-two-fifths.has-background-light[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
+        dom"div.column.is-two-fifths.has-background-light[style=height:100vh;overflow-y:scroll;overflow-x:hidden]"(
             pad(1em, left_menu)
         ),
-        dom"div.column[style=height:100%;overflow-y:scroll;overflow-x:hidden]"(
+        dom"div.column[style=height:100vh;overflow-y:scroll;overflow-x:hidden]"(
             pad(1em, right_menu)
         )
     )
