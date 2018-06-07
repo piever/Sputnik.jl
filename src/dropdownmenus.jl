@@ -16,6 +16,9 @@ struct DropdownItem
 end
 
 DropdownItem(v, transform = Symbol; label = "select") = DropdownItem(label, dropdown(v, label = label), transform)
+DropdownItem(d::OrderedDict{String, Any}; label = "select") =
+    DropdownItem(collect(keys(d)), t -> d[t]; label=label)
+
 
 function dropdownrow(t::NextTable)
     n = string.(colnames(t))
@@ -27,7 +30,10 @@ function dropdownrow(t::NextTable)
     across = DropdownItem(vcat(["none", "bootstrap", "across"], "across " .* n),
                           across_map,
                           label = "compute_error")
-    [x, y, plot_type, axis_type, across]
+    package = DropdownItem(
+        OrderedDict("auto" => nothing, "StatPlots" => StatPlotsRecipe, "GroupedErrors" => GroupedError),
+        label = "module")
+    [x, y, plot_type, axis_type, across, package]
 end
 
 function across_map(s)

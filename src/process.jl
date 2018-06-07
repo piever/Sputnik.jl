@@ -9,6 +9,7 @@
     zfunc = nothing
     axis_type = nothing
     smoother = nothing
+    package = nothing
     plot = nothing
     plot_kwargs = []
 end
@@ -22,6 +23,7 @@ struct StatPlotsRecipe; end
 struct GroupedError; end
 
 function analysistype(a)
+    a.package != nothing && return a.package
     a.plot in [boxplot, violin, histogram2d, marginalhist] && return StatPlotsRecipe
     a.compute_error !== nothing && return GroupedError
     (a.y in colnames(a.data.table) || a.y === nothing) ? StatPlotsRecipe : GroupedError

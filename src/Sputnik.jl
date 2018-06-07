@@ -3,9 +3,10 @@ module Sputnik
 using InteractBase
 using InteractBulma
 using StatPlots
+plotlyjs()
+using DataStructures
 using WebIO, Vue, CSSUtil, JuliaDB, DataStructures, Observables
 import InteractBase: primary_obs!, observe
-import GR
 using MacroTools
 using GroupedErrors
 using JuliaDB, IndexedTables, NamedTuples
