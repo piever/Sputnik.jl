@@ -3,7 +3,7 @@ module Sputnik
 using InteractBase
 using InteractBulma
 using StatPlots
-import GR
+plotlyjs()
 using DataStructures
 using WebIO, Vue, CSSUtil, JuliaDB, DataStructures, Observables
 import InteractBase: primary_obs!, observe
