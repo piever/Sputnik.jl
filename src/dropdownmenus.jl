@@ -33,7 +33,7 @@ function dropdownrow(t::NextTable)
     package = DropdownItem(
         OrderedDict("auto" => nothing, "StatPlots" => StatPlots, "GroupedErrors" => GroupedErrors),
         label = "compute_error")
-    [x, y, plot_type, axis_type, across]
+    [x, y, plot_type, axis_type, across, package]
 end
 
 function across_map(s)

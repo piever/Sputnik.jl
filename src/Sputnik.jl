@@ -3,6 +3,7 @@ module Sputnik
 using InteractBase
 using InteractBulma
 using StatPlots
+import GR
 using DataStructures
 using WebIO, Vue, CSSUtil, JuliaDB, DataStructures, Observables
 import InteractBase: primary_obs!, observe
@@ -19,8 +20,6 @@ export Data2Select, SelectedData
 export SelectPredicate, SelectValues
 export Analysis, process
 export layout, ChecklistColumn, checklistcolumns
-
-plotlyjs()
 
 const tablefolder = joinpath(homedir(), ".sputnik", "tables")
 const plotfolder = joinpath(homedir(), ".sputnik", "plots")
