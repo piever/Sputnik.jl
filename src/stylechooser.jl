@@ -1,17 +1,23 @@
-mutable struct StyleChooser<:AbstractColumn
+mutable struct StyleChooser
     name::Symbol
     widget
-    style::DropdownItem
+    style
     categorical::Bool
 end
 
+layout(c::StyleChooser) = dom"div.column"(c.widget)
+layout(cs::AbstractArray{<:StyleChooser}) = node(:div, className = "column")(layout.(cs)...)
+
+layout(c::Widgets.Widget{:dropdown}) = c
+layout(cs::AbstractArray{<:Widgets.Widget{:dropdown}}) = hbox(hbox.(layout.(cs), Ref(hskip(20px))))
+
 function StyleChooser(name::Symbol, options::AbstractArray = styles; categorical=true, vskip=0em, kwargs...)
-    dropdown = DropdownItem(string.(options), label = nothing)
-    ui = togglecontent(layout(dropdown); label=string(name), vskip=vskip, kwargs...)
-    StyleChooser(name, ui, dropdown, categorical)
+    opts = dropdown(options, label = nothing)
+    ui = togglecontent(layout(opts); label=string(name), vskip=vskip, kwargs...)
+    StyleChooser(name, ui, opts, categorical)
 end
 
-function stylechoosers(t::NextTable, nbox = 5)
+function stylechoosers(t::IndexedTable, nbox = 5)
     v = StyleChooser[]
     w = StyleChooser[]
     for n in colnames(t)

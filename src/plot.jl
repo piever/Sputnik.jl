@@ -1,5 +1,7 @@
-function build_plot(t, plot_options, checklists, predicates, style, plot_kwargs, smoother)
-    s = SelectedData(Data2Select(t, checklists, predicates))
+default_plot() = scatter(rand(100))
+
+function build_plot(t, plot_options, style, plot_kwargs, smoother)
+    s = SelectedData(t[])
     update!(s, style)
     x, y, plt, axis_type, across, package = selecteditems(plot_options)
     a = Analysis(data=s,
@@ -16,13 +18,13 @@ function build_plot(t, plot_options, checklists, predicates, style, plot_kwargs,
     process(a)
 end
 
-build_spreadsheet(t, checklists, predicates, style) = build_table(t, checklists, predicates, style) |> TableView.showtable
+build_spreadsheet(filtered_data, style) = TableWidgets.head(build_table(filtered_data[], style), 1000)
 
-function build_table(t, checklists, predicates, style)
-    s =  SelectedData(Data2Select(t, checklists, predicates))
+function build_table(t, style)
+    s = SelectedData(t)
     update!(s, style)
     table(s)
 end
 
 extract_kwargs(; kwargs...) = kwargs
-extract_kwargs(plot_kwargs) = eval(parse("extract_kwargs($plot_kwargs)"))
+extract_kwargs(plot_kwargs::AbstractString) = eval(Meta.parse("extract_kwargs($plot_kwargs)"))

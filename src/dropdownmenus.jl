@@ -8,31 +8,19 @@ const plot_dict = OrderedDict(
     "marginalhist" => marginalhist,
 )
 
-
-struct DropdownItem
-    name
-    items
-    transform
-end
-
-DropdownItem(v, transform = Symbol; label = "select") = DropdownItem(label, dropdown(v, label = label), transform)
-DropdownItem(d::OrderedDict{String, Any}; label = "select") =
-    DropdownItem(collect(keys(d)), t -> d[t]; label=label)
-
-
-function dropdownrow(t::NextTable)
-    n = string.(colnames(t))
-    x = DropdownItem(n, label = "x")
-    y = DropdownItem(vcat(["density", "cumulative", "hazard"], n), label = "y")
-    plotlist = collect(keys(plot_dict))
-    plot_type = DropdownItem(plotlist, x -> plot_dict[x], label = "plot")
-    axis_type = DropdownItem(["auto", "pointbypoint", "discrete", "binned", "continuous"], label = "axis_type")
-    across = DropdownItem(vcat(["none", "bootstrap", "across"], "across " .* n),
-                          across_map,
-                          label = "compute_error")
-    package = DropdownItem(
+function dropdownrow(t::IndexedTable)
+    ns = collect(colnames(t))
+    x = dropdown(ns, label = "x")
+    y = dropdown(vcat([:density, :cumulative, :hazard], ns), label = "y")
+    plot_type = dropdown(plot_dict, label = "plot")
+    axis_type = dropdown(Symbol.(["auto", "pointbypoint", "discrete", "binned", "continuous"]), label = "axis_type")
+    across_strs = vcat(["none", "bootstrap", "across"], "across " .* string.(ns))
+    across_vals = map(across_map, across_strs)
+    across = dropdown(OrderedDict(zip(across_strs, across_vals)), label = "compute_error")
+    package = dropdown(
         OrderedDict("auto" => nothing, "StatPlots" => StatPlotsRecipe, "GroupedErrors" => GroupedError),
-        label = "module")
+        label = "module"
+    )
     [x, y, plot_type, axis_type, across, package]
 end
 
@@ -48,5 +36,5 @@ function across_map(s)
     end
 end
 
-selecteditems(c::DropdownItem) = observe(c.items).val |> c.transform
-selecteditems(c::AbstractArray{<:DropdownItem}) = selecteditems.(c)
+selecteditems(c::AbstractObservable) = c[]
+selecteditems(c::AbstractArray) = selecteditems.(c)

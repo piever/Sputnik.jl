@@ -2,12 +2,13 @@ set_ui!(ui) = (setupfolders(); ui[] = hbox(loadfrommemory(ui), hskip(20px), load
 
 set_ui!(ui, t::AbstractString) = set_ui!(ui, loadtable(t))
 
-function set_ui!(ui, t::NextTable)
+function set_ui!(ui, t::IndexedTable)
     setupfolders()
     d_obs = Observable{Any}(loadfrommemory(ui))
     s = loadbutton(ui)
     plot_options = dropdownrow(t)
-    checklists, predicates = selectioncolumns(t)
+    selectors = TableWidgets.selectors(t)
+    filtered_data = map(table, selectors)
     categoricalstyle, continuousstyle = stylechoosers(t)
     style = vcat(categoricalstyle, continuousstyle)
     plot_command = button("Plot")
@@ -25,23 +26,19 @@ function set_ui!(ui, t::NextTable)
     spreadsheet =  Observable{Any}(dom"div"(""))
     plt_kwargs = textbox("Insert plot attributes")
     smoother = slider(1:100, label = "smoothing")
-    on(x -> spreadsheet[] = build_spreadsheet(t, checklists, predicates, style), observe(spreadsheet_command))
+    on(x -> spreadsheet[] = build_spreadsheet(filtered_data, style), observe(spreadsheet_command))
     on(x -> savefig(plt[], filename(save_plot_button)), observe(save_plot_button))
-    onany((x, y) -> plt[] = build_plot(t, plot_options, checklists, predicates, style, plt_kwargs, y), observe(plot_command), observe(smoother))
-    on(x -> (_save(t, checklists, predicates, style, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
+    onany((x, y) -> plt[] = build_plot(filtered_data, plot_options, style, plt_kwargs, y), observe(plot_command), observe(smoother))
+    on(x -> (_save(filtered_data, style, filename(save_table_button), isselected(save_table_button)); d_obs[] = loadfrommemory(ui)),
         observe(save_table_button))
 
-    selection = dom"div.columns"(
-        layout(checklists),
-        layout(predicates),
-    )
-
-    left_menu = tabulator(["Load", "Filter", "Style"],
+    left_menu = tabulator(OrderedDict(zip(
+        ["Load", "Filter", "Style"],
         [
             dom"div"(pad(1em, d_obs), pad(1em, s)),
-            pad(1em, selection),
+            pad(1em, selectors),
             pad(1em, dom"div.columns"(layout.((categoricalstyle, continuousstyle))...))
-        ], value=1)
+        ])), index=1)
 
     plot_view = dom"div"(
         layout(plot_options),
@@ -57,7 +54,7 @@ function set_ui!(ui, t::NextTable)
         spreadsheet,
     )
 
-    right_menu = tabulator(["Table", "Graph"], value = 1, [spreadsheet_view, plot_view])
+    right_menu = tabulator(OrderedDict("Table" => spreadsheet_view, "Graph" => plot_view), index = 1)
 
     ui[] = dom"div.columns"(
         dom"div.column.is-two-fifths.has-background-light[style=height:100vh;overflow-y:scroll;overflow-x:hidden]"(
