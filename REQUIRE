@@ -2,7 +2,6 @@ julia 0.7
 StatsPlots
 JuliaDB
 GroupedErrors
-GR
 Parameters
 WebIO
 MacroTools
@@ -13,3 +12,4 @@ CSSUtil
 TableWidgets
 Interact
 DataStructures
+ColorBrewer

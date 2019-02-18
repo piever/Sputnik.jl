@@ -1,6 +1,7 @@
-using JuliaDB, Compat, GroupedErrors, Sputnik, Images, NamedTuples
-using StatPlots
-using Compat.Test
+using JuliaDB, GroupedErrors, Sputnik, Images
+using Sputnik: process
+using StatsPlots
+using Test
 school = loadtable(GroupedErrors.exampletable("school.csv"))
 
 function compare_plots(plt1, plt2; sigma = [1,1], eps = 0.02)
@@ -14,30 +15,18 @@ function compare_plots(plt1, plt2; sigma = [1,1], eps = 0.02)
     outcome
 end
 
-@testset "select" begin
-    selectdiscrete = (SelectValues(:Minrty, ["Yes"], true), SelectValues(:Sx, ["Male"], false))
-    selectcontinuous = (SelectPredicate(:MAch, x -> 6 <= x <= 10),)
-    expected = filter(i -> i.Minrty == "Yes" && i.Sx == "Male" && 6 <= i.MAch <= 10, school)
-    @test Sputnik.selectdata(school, selectdiscrete..., selectcontinuous...) == expected
-    d2s  = Data2Select(school, selectdiscrete, selectcontinuous)
-    @test SelectedData(d2s) == SelectedData(expected, (:Minrty,))
-end
-
 @testset "statplots" begin
-    selectdiscrete = (SelectValues(:Minrty, String[], true, false), SelectValues(:Sx, ["Male"], false))
-    selectcontinuous = (SelectPredicate(:MAch, x -> 6 <= x <= 10),)
-    expected = filter(i -> i.Sx == "Male" && 6 <= i.MAch <= 10, school)
-    d2s  = Data2Select(school, selectdiscrete, selectcontinuous)
-    sd = SelectedData(d2s)
+    data = school
+    sd = SelectedData(school)
 
     a = Analysis(data = sd, x = :MAch, plot = density)
     plt1 = process(a)
-    plt2 = @df expected density(:MAch, group = {:Minrty})
+    plt2 = @df data density(:MAch, group = {:Minrty})
     @test compare_plots(plt1, plt2) < 0.001
 
     a = Analysis(data = sd, x = :MAch, y = :SSS, plot = scatter, plot_kwargs = [(:legend, :topleft)])
     plt1 = process(a)
-    plt2 = @df expected scatter(:MAch, :SSS, legend = :topleft, group ={:Minrty})
+    plt2 = @df data scatter(:MAch, :SSS, legend = :topleft, group ={:Minrty})
     @test compare_plots(plt1, plt2) < 0.001
 
     sd = SelectedData(Data2Select(school, (), ()))
@@ -48,12 +37,7 @@ end
 end
 
 @testset "groupederrors" begin
-    school = GroupedErrors.exampletable("school.csv") |> loadtable
-    selectdiscrete = (SelectValues(:Minrty, ["Yes", "No"], true), SelectValues(:Sx, ["Male"], false))
-    selectcontinuous = (SelectPredicate(:MAch, x -> 6 <= x <= 10),)
-    expected = filter(i -> i.Sx == "Male" && 6 <= i.MAch <= 10, school)
-    d2s  = Data2Select(school, selectdiscrete, selectcontinuous)
-    sd = SelectedData(d2s)
+    sd = SelectedData(school)
     a = Analysis(data = sd,
                  x = :MAch,
                  y = :density,
@@ -61,10 +45,10 @@ end
                  axis_type = :continuous,
                  smoother = 50.0)
     plt1 = process(a)
-    plt2 = @> expected begin
+    plt2 = @> data begin
         @splitby _.Minrty
         @x _.MAch :continuous
-        @y :density bandwidth = (51.0)*std(column(expected, :MAch))/200
+        @y :density bandwidth = (51.0)*std(column(data, :MAch))/200
         @plot plot()
     end
     @test compare_plots(plt1, plt2) < 0.001
@@ -77,11 +61,11 @@ end
                  axis_type = :continuous,
                  smoother = 50.0)
     plt1 = process(a)
-    plt2 = @> expected begin
+    plt2 = @> data begin
         @across _.School
         @splitby _.Minrty
         @x _.MAch :continuous
-        @y :density bandwidth = (51.0)*std(column(expected, :MAch))/200
+        @y :density bandwidth = (51.0)*std(column(data, :MAch))/200
         @plot plot()
     end
     @test compare_plots(plt1, plt2) < 0.001
@@ -95,7 +79,7 @@ end
                  plot = scatter,
                  axis_type = :pointbypoint)
     plt1 = process(a)
-    plt2 = @> expected begin
+    plt2 = @> data begin
         @across _.School
         @splitby _.Minrty
         @x _.MAch

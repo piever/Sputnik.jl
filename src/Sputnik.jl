@@ -3,7 +3,6 @@ module Sputnik
 using Statistics
 using Interact
 using StatsPlots
-import GR
 using DataStructures
 using JuliaDB, DataStructures
 import Observables: AbstractObservable, observe
