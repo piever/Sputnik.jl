@@ -1,5 +1,6 @@
 module Sputnik
 
+using Statistics
 using Interact
 using StatsPlots
 import GR
