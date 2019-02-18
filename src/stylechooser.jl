@@ -1,12 +1,12 @@
-mutable struct StyleChooser<:AbstractColumn
+mutable struct StyleChooser
     name::Symbol
     widget
-    style::DropdownItem
+    style
     categorical::Bool
 end
 
 function StyleChooser(name::Symbol, options::AbstractArray = styles; categorical=true, vskip=0em, kwargs...)
-    dropdown = DropdownItem(string.(options), label = nothing)
+    dropdown = dropdown(options, label = nothing)
     ui = togglecontent(layout(dropdown); label=string(name), vskip=vskip, kwargs...)
     StyleChooser(name, ui, dropdown, categorical)
 end

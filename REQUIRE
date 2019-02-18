@@ -1,15 +1,14 @@
-julia 0.6
-StatPlots
+julia 0.7
+StatsPlots
 JuliaDB
 GroupedErrors
 GR
-Compat
 Parameters
-NamedTuples
 WebIO
 MacroTools
 Blink
 Mux
-Vue
 WebIO
 CSSUtil
+TableWidgets
+Interact

@@ -1,3 +1,5 @@
+default_plot() = scatter(rand(100))
+
 function build_plot(t, plot_options, checklists, predicates, style, plot_kwargs, smoother)
     s = SelectedData(Data2Select(t, checklists, predicates))
     update!(s, style)

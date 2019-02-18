@@ -8,7 +8,7 @@ function compute_error(s, cpt_err)
     end
 end
 
-compute_error(s, ::Void) = s
+compute_error(s, ::Nothing) = s
 
 function smoothing_kwargs(a::Analysis)
     iscontinuous(a) || return []
