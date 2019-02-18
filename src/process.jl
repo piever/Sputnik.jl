@@ -14,11 +14,6 @@
     plot_kwargs = []
 end
 
-function Analysis(a::Analysis; kwargs...)
-    d = Dict(kwargs)
-    Analysis((get(d, f, getfield(a, f)) for f in fieldnames(a))...)
-end
-
 struct StatPlotsRecipe; end
 struct GroupedError; end
 
