@@ -10,5 +10,6 @@ WebIO
 CSSUtil
 TableWidgets
 Interact
+Observables
 DataStructures
 ColorBrewer
