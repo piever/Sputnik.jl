@@ -13,6 +13,7 @@ using Parameters
 using Blink, Mux
 
 import IndexedTables: AbstractIndexedTable
+import TableWidgets
 
 export SelectedData
 export Analysis
