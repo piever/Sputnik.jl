@@ -30,6 +30,6 @@ filename(p::TableSaver) = joinpath(tablefolder, name(p))
 isselected(t::TableSaver) = observe(t.checkbox).val
 
 function _save(data, style, fn, sel)
-    t1 = sel ? build_table(data[], style) : data[]
+    t1 = sel ? build_table(data, style) : data[]
     JuliaDB.save(t1, fn)
 end

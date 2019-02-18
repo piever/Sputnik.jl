@@ -1,7 +1,7 @@
 default_plot() = scatter(rand(100))
 
 function build_plot(t, plot_options, style, plot_kwargs, smoother)
-    s = SelectedData(t[])
+    s = SelectedData(t)
     update!(s, style)
     x, y, plt, axis_type, across, package = selecteditems(plot_options)
     a = Analysis(data=s,
@@ -18,7 +18,7 @@ function build_plot(t, plot_options, style, plot_kwargs, smoother)
     process(a)
 end
 
-build_spreadsheet(filtered_data, style) = TableWidgets.head(build_table(filtered_data[], style), 1000)
+build_spreadsheet(filtered_data, style) = TableWidgets.head(build_table(filtered_data, style), 1000)
 
 function build_table(t, style)
     s = SelectedData(t)
