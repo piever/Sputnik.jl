@@ -21,19 +21,19 @@ end
 
     a = Analysis(data = sd, x = :MAch, plot = density)
     plt1 = process(a)
-    plt2 = @df data density(:MAch, group = {:Minrty})
-    @test compare_plots(plt1, plt2) < 0.001
+    plt2 = @df data density(:MAch)
+    @test compare_plots(plt1, plt2) < 0.005
 
     a = Analysis(data = sd, x = :MAch, y = :SSS, plot = scatter, plot_kwargs = [(:legend, :topleft)])
     plt1 = process(a)
-    plt2 = @df data scatter(:MAch, :SSS, legend = :topleft, group ={:Minrty})
-    @test compare_plots(plt1, plt2) < 0.001
+    plt2 = @df data scatter(:MAch, :SSS, legend = :topleft)
+    @test compare_plots(plt1, plt2) < 0.005
 
-    sd = SelectedData(Data2Select(school, (), ()))
+    sd = SelectedData(school)
     a = Analysis(data = sd, x = :MAch, y = :SSS, plot = scatter)
     plt1 = process(a)
     plt2 = @df school scatter(:MAch, :SSS, legend = false)
-    @test compare_plots(plt1, plt2) < 0.001
+    @test compare_plots(plt1, plt2) < 0.005
 end
 
 @testset "groupederrors" begin
@@ -46,12 +46,11 @@ end
                  smoother = 50.0)
     plt1 = process(a)
     plt2 = @> data begin
-        @splitby _.Minrty
         @x _.MAch :continuous
         @y :density bandwidth = (51.0)*std(column(data, :MAch))/200
         @plot plot()
     end
-    @test compare_plots(plt1, plt2) < 0.001
+    @test compare_plots(plt1, plt2) < 0.005
 
     a = Analysis(data = sd,
                  compute_error = (:across, :School),
@@ -63,12 +62,11 @@ end
     plt1 = process(a)
     plt2 = @> data begin
         @across _.School
-        @splitby _.Minrty
         @x _.MAch :continuous
         @y :density bandwidth = (51.0)*std(column(data, :MAch))/200
         @plot plot()
     end
-    @test compare_plots(plt1, plt2) < 0.001
+    @test compare_plots(plt1, plt2) < 0.005
 
     a = Analysis(data = sd,
                  compute_error = (:across, :School),
@@ -81,10 +79,9 @@ end
     plt1 = process(a)
     plt2 = @> data begin
         @across _.School
-        @splitby _.Minrty
         @x _.MAch
         @y _.SSS
         @plot scatter()
     end
-    @test compare_plots(plt1, plt2) < 0.001
+    @test compare_plots(plt1, plt2) < 0.005
 end
