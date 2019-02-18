@@ -4,7 +4,7 @@ os:
   - linux
   - osx
 julia:
-  - 0.6
+  - 1.1
   # - nightly
 notifications:
   email: false
@@ -27,9 +27,9 @@ git:
 
 ## uncomment the following lines to override the default test script
 script:
- - julia -e 'Pkg.clone(pwd()); Pkg.clone("https://github.com/piever/InteractBase.jl"); Pkg.clone("https://github.com/piever/InteractBulma.jl"); Pkg.build("InteractBulma"); Pkg.clone("https://github.com/JuliaComputing/TableView.jl"); Pkg.build("Sputnik"); Pkg.test("Sputnik"; coverage=true)'
+ - julia -e 'import Pkg; Pkg.pkg"add https://github.com/piever/TableWidgets.jl"; Pkg.clone(pwd()); Pkg.build("Sputnik"); Pkg.test("Sputnik"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
-  - julia -e 'cd(Pkg.dir("Sputnik")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  - julia -e 'import Pkg; cd(Pkg.dir("Sputnik")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
   # push coverage results to Codecov
-  - julia -e 'cd(Pkg.dir("Sputnik")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'import Pkg; cd(Pkg.dir("Sputnik")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

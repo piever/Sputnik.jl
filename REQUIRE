@@ -1,15 +1,16 @@
 julia 0.7
 StatsPlots
 JuliaDB
+IndexedTables
 GroupedErrors
 Parameters
 WebIO
-MacroTools
 Blink
 Mux
 WebIO
 CSSUtil
 TableWidgets
 Interact
+Observables
 DataStructures
 ColorBrewer

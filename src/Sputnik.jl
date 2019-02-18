@@ -4,9 +4,8 @@ using Statistics
 using Interact
 using StatsPlots
 using DataStructures
-using JuliaDB, DataStructures
+using JuliaDB
 import Observables: AbstractObservable, observe
-using MacroTools
 using GroupedErrors
 using JuliaDB, IndexedTables
 using Parameters
@@ -14,9 +13,6 @@ using Blink, Mux
 
 import IndexedTables: AbstractIndexedTable
 import TableWidgets
-
-export SelectedData
-export Analysis
 
 const tablefolder = joinpath(homedir(), ".sputnik", "tables")
 const plotfolder = joinpath(homedir(), ".sputnik", "plots")
