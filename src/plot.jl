@@ -18,10 +18,10 @@ function build_plot(t, plot_options, checklists, predicates, style, plot_kwargs,
     process(a)
 end
 
-build_spreadsheet(t, checklists, predicates, style) = build_table(t, checklists, predicates, style) |> TableView.showtable
+build_spreadsheet(filtered_data, style) = TableWidgets.head(build_table(filtered_data[], style), 1000)
 
-function build_table(t, checklists, predicates, style)
-    s =  SelectedData(Data2Select(t, checklists, predicates))
+function build_table(t, style)
+    s = SelectedData(t)
     update!(s, style)
     table(s)
 end

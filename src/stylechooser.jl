@@ -17,7 +17,7 @@ function StyleChooser(name::Symbol, options::AbstractArray = styles; categorical
     StyleChooser(name, ui, opts, categorical)
 end
 
-function stylechoosers(t::NextTable, nbox = 5)
+function stylechoosers(t::IndexedTable, nbox = 5)
     v = StyleChooser[]
     w = StyleChooser[]
     for n in colnames(t)
