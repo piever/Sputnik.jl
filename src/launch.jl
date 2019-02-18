@@ -7,7 +7,8 @@ function set_ui!(ui, t::IndexedTable)
     d_obs = Observable{Any}(loadfrommemory(ui))
     s = loadbutton(ui)
     plot_options = dropdownrow(t)
-    filtered_data = map(table, TableWidgets.selectors(t))
+    selectors = TableWidgets.selectors(t)
+    filtered_data = map(table, selectors)
     categoricalstyle, continuousstyle = stylechoosers(t)
     style = vcat(categoricalstyle, continuousstyle)
     plot_command = button("Plot")
@@ -35,7 +36,7 @@ function set_ui!(ui, t::IndexedTable)
         ["Load", "Filter", "Style"],
         [
             dom"div"(pad(1em, d_obs), pad(1em, s)),
-            pad(1em, filtered_data),
+            pad(1em, selectors),
             pad(1em, dom"div.columns"(layout.((categoricalstyle, continuousstyle))...))
         ])), index=1)
 
