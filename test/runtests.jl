@@ -1,5 +1,5 @@
 using JuliaDB, GroupedErrors, Sputnik, Images
-using Sputnik: process
+using Sputnik: process, SelectedData, Analysis
 using StatsPlots
 using Test
 school = loadtable(GroupedErrors.exampletable("school.csv"))
