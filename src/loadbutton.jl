@@ -5,8 +5,8 @@ function loadbutton(ui)
 end
 
 function loadfrommemory(ui)
-    tables = vcat("", readdir(tablefolder))
-    d = dropdown(tables, label="saved")
+    tables = readdir(tablefolder)
+    d = dropdown(tables, placeholder="Previously saved", value = nothing)
     on(x -> x!="" && set_ui!(ui, JuliaDB.load(joinpath(tablefolder, x))), observe(d))
     d
 end
