@@ -3,7 +3,7 @@ import ColorBrewer
 
 const palette_dict = OrderedDict(
     :color => ColorBrewer.palette("Set1", 8),
-    :markershape => [:diamond, :cross, :circle, :triangle],
+    :markershape => [:diamond, :circle, :triangle, :star5],
     :linestyle => [:solid, :dash, :dot, :dashdot],
     :linewidth => [1,4,2,3],
     :markersize => [3,9,5,7]
