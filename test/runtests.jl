@@ -1,6 +1,6 @@
 using JuliaDB, GroupedErrors, Sputnik, Images
 using Sputnik: process, SelectedData, Analysis
-using StatsPlots
+using StatsPlots, Statistics
 using Test
 school = loadtable(GroupedErrors.exampletable("school.csv"))
 
@@ -45,9 +45,10 @@ end
                  axis_type = :continuous,
                  smoother = 50.0)
     plt1 = process(a)
-    plt2 = @> data begin
+    bw = (51.0)*std(column(school, :MAch))/200
+    plt2 = @> school begin
         @x _.MAch :continuous
-        @y :density bandwidth = (51.0)*std(column(data, :MAch))/200
+        @y :density bandwidth = bw
         @plot plot()
     end
     @test compare_plots(plt1, plt2) < 0.005
@@ -60,10 +61,10 @@ end
                  axis_type = :continuous,
                  smoother = 50.0)
     plt1 = process(a)
-    plt2 = @> data begin
+    plt2 = @> school begin
         @across _.School
         @x _.MAch :continuous
-        @y :density bandwidth = (51.0)*std(column(data, :MAch))/200
+        @y :density bandwidth = bw
         @plot plot()
     end
     @test compare_plots(plt1, plt2) < 0.005
@@ -77,7 +78,7 @@ end
                  plot = scatter,
                  axis_type = :pointbypoint)
     plt1 = process(a)
-    plt2 = @> data begin
+    plt2 = @> school begin
         @across _.School
         @x _.MAch
         @y _.SSS
