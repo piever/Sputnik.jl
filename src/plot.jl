@@ -18,7 +18,7 @@ function build_plot(t, plot_options, style, plot_kwargs, smoother)
     process(a)
 end
 
-build_spreadsheet(filtered_data, style) = TableWidgets.head(build_table(filtered_data, style), 1000)
+build_spreadsheet(filtered_data, style) = TableView.showtable(build_table(filtered_data, style), height = "60vh")
 
 function build_table(t, style)
     s = SelectedData(t)

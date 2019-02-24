@@ -12,7 +12,7 @@ using Parameters
 using Blink, Mux
 
 import IndexedTables: AbstractIndexedTable
-import TableWidgets
+import TableWidgets, TableView
 
 const tablefolder = joinpath(homedir(), ".sputnik", "tables")
 const plotfolder = joinpath(homedir(), ".sputnik", "plots")
